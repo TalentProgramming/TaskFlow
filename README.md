@@ -25,7 +25,7 @@ Feature-based packages, with data / domain / presentation inside each feature.
 com.aal.taskflow
 ├── core
 │   ├── common
-│   ├── network      ← debug vs release API URLs
+│   ├── network      ← flavor API URLs (staging / uat / prod)
 │   └── ui           ← setup-complete screen
 ├── feature
 │   ├── auth         ← data / domain / presentation
@@ -47,14 +47,35 @@ Repository     (later chapters)
 Remote / Local (later chapters)
 ```
 
-## Build environments
+## Product flavors and build types
 
-| Build type | Environment | API URL |
-|---|---|---|
-| `debug` | development | `https://dev-api.taskflow.local/v1/` |
-| `release` | production | `https://api.taskflow.app/v1/` |
+API URLs belong to **product flavors**. **Build types** only decide whether the package is debug or release.
 
-Switch variants in Android Studio with **Build > Select Build Variant**.
+| Flavor | Environment | Application ID | API URL |
+|---|---|---|---|
+| `staging` | staging | `com.tp.taskflow.staging` | `https://staging-api.taskflow.local/v1/` |
+| `uat` | uat | `com.tp.taskflow.uat` | `https://uat-api.taskflow.local/v1/` |
+| `prod` | production | `com.tp.taskflow` | `https://api.taskflow.app/v1/` |
+
+Combined variants in **Build > Select Build Variant**:
+
+- `stagingDebug` / `stagingRelease`
+- `uatDebug` / `uatRelease`
+- `prodDebug` / `prodRelease`
+
+`staging` and `uat` can sit on the same device as `prod` because they use `applicationIdSuffix`.
+
+## Release signing
+
+Debug variants use the Android debug key. Release variants use the project keystores:
+
+| Variant | Keystore |
+|---|---|
+| `stagingRelease` | `development_keystore` |
+| `uatRelease` | `development_keystore` |
+| `prodRelease` | `production_keystore` |
+
+Copy `keystore.properties.example` to `keystore.properties` and fill in the passwords. Do not commit the keystore files or `keystore.properties`.
 
 Dependencies are managed through `gradle/libs.versions.toml`.
 

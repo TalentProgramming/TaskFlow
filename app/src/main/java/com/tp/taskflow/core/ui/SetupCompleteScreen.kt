@@ -84,7 +84,9 @@ private fun EnvironmentCard() {
                 style = MaterialTheme.typography.titleSmall,
                 fontWeight = FontWeight.SemiBold
             )
-            InfoRow(label = "Variant", value = ApiConfig.environmentName)
+            InfoRow(label = "Flavor", value = ApiConfig.flavor)
+            InfoRow(label = "Build type", value = ApiConfig.buildType)
+            InfoRow(label = "Environment", value = ApiConfig.environmentName)
             InfoRow(label = "Debug", value = ApiConfig.isDebugBuild.toString())
             InfoRow(label = "API URL", value = ApiConfig.baseUrl)
         }
