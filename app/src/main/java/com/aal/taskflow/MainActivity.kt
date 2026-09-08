@@ -4,7 +4,9 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.aal.taskflow.core.ui.SetupCompleteScreen
+import androidx.lifecycle.viewmodel.compose.viewModel
+import com.aal.taskflow.feature.auth.presentation.LoginScreen
+import com.aal.taskflow.feature.auth.presentation.LoginViewModel
 import com.aal.taskflow.ui.theme.TaskFlowTheme
 
 class MainActivity : ComponentActivity() {
@@ -13,7 +15,8 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             TaskFlowTheme {
-                SetupCompleteScreen()
+                val loginViewModel: LoginViewModel = viewModel()
+                LoginScreen(viewModel = loginViewModel)
             }
         }
     }

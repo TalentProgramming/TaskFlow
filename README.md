@@ -1,75 +1,46 @@
 # TaskFlow
 
-Production-style Android starter for **Android Advanced Techniques**.
+Production-style Android project for **Android Advanced Techniques**.
 
-**Chapter 1 — Modern Android Development Architecture**
+**Chapter 2 — Advanced Kotlin login module**
 
-The app runs and shows `TaskFlow • Project Setup Complete`. Real login, networking, Room, Hilt, and coroutines are intentionally not implemented yet.
+This branch extends the Chapter 1 foundation with a Kotlin-only login-state simulator. There is still no Retrofit, Room, Hilt, or coroutines.
 
-## Course progress
+## Demo credentials
 
-| Branch | Status |
+| Field | Value |
 |---|---|
-| `main` | Chapter 1 foundation |
-| `develop` | Integration branch |
-| `feature/project-setup` | Chapter 1 homework branch |
-| `dev/chapter1` | Same snapshot as Chapter 1 |
-| `dev/chapter2` | Advanced Kotlin login simulator |
-| `dev/chapter3` | Parallel coroutine dashboard |
+| Email | `student@example.com` |
+| Password | `123456` |
 
-## Architecture
+Anything else returns `Resource.Error("Invalid credentials")`. Invalid form input never calls the fake login.
 
-Feature-based packages, with data / domain / presentation inside each feature.
+## Where Chapter 2 Kotlin is used
 
-```text
-com.aal.taskflow
-├── core
-│   ├── common
-│   ├── network      ← debug vs release API URLs
-│   └── ui           ← setup-complete screen
-├── feature
-│   ├── auth         ← data / domain / presentation
-│   ├── task         ← data / domain / presentation
-│   └── profile      ← data / domain / presentation
-├── di               ← empty until Chapter 6 (Hilt)
-└── utils
-```
+| Feature | File |
+|---|---|
+| `Resource<out T>` — Loading / Success / Error / Empty | `core/common/Resource.kt` |
+| `User` data class | `feature/auth/domain/User.kt` |
+| `String.isValidEmail()` and `String.isStrongPassword()` | `utils/ValidationExtensions.kt` |
+| `let` for email/password pairing | `LoginViewModel.onLoginClick()` |
+| `also` when a successful user is created | `FakeAuthRepository.login()` |
+| `run` to build the welcome text | `LoginScreen` success branch |
+| Exhaustive `when` for UI state | `LoginStatePanel` |
+| No `!!` | Project-wide |
 
-```text
-UI
- ↓
-ViewModel      (later chapters)
- ↓
-Use Case       (later chapters)
- ↓
-Repository     (later chapters)
- ↓
-Remote / Local (later chapters)
-```
-
-## Build environments
-
-| Build type | Environment | API URL |
-|---|---|---|
-| `debug` | development | `https://dev-api.taskflow.local/v1/` |
-| `release` | production | `https://api.taskflow.app/v1/` |
-
-Switch variants in Android Studio with **Build > Select Build Variant**.
-
-Dependencies are managed through `gradle/libs.versions.toml`.
+Loading is simulated with `Handler.postDelayed` so the Loading screenshot is possible without coroutines. Chapter 3 replaces that delay with `viewModelScope` and `delay()`.
 
 ## How to run
 
 1. Open this folder in Android Studio.
 2. Sync Gradle.
 3. Run the `app` configuration.
-4. Confirm the setup-complete screen and the current API URL.
+4. Capture Idle, Loading, Success, and Error.
 
 ## Not in this chapter
 
-- Real login
-- Retrofit / OkHttp
+- Retrofit / real API
+- Coroutines / Flow
 - Room
 - Hilt
-- Coroutines / Flow
-- Notifications
+- Firebase

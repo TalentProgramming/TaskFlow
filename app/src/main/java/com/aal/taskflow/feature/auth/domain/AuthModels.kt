@@ -1,6 +1,6 @@
 package com.aal.taskflow.feature.auth.domain
 
 /**
- * Auth domain models arrive with the Chapter 2 login simulator.
+ * Auth domain models for Chapter 2 live in [User].
  */
 object AuthModels
