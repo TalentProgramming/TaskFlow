@@ -2,45 +2,51 @@
 
 Production-style Android project for **Android Advanced Techniques**.
 
-**Chapter 2 — Advanced Kotlin login module**
+**Chapter 3 — Kotlin Coroutines parallel dashboard**
 
-This branch extends the Chapter 1 foundation with a Kotlin-only login-state simulator. There is still no Retrofit, Room, Hilt, or coroutines.
+After the Chapter 2 login simulation, the home dashboard loads profile, posts, and notifications together with `async` / `await`.
 
-## Demo credentials
+## How to demo
 
-| Field | Value |
+1. Run the `app` configuration.
+2. Sign in with `student@example.com` / `123456`.
+3. Tap **Open dashboard**.
+4. First load fails on purpose (`Posts service unavailable`) so you can screenshot **Error** and tap **Retry**.
+5. Retry loads all three sources in parallel and shows **Success**.
+
+Watch Logcat tag `TaskFlow` for parallel timing. Sequential time would be about 800 + 900 + 1100 = 2800 ms.
+
+## Coroutine design
+
+| Piece | Choice |
 |---|---|
-| Email | `student@example.com` |
-| Password | `123456` |
+| Scope | `viewModelScope` in `DashboardViewModel` — no data coroutine is started from the Activity |
+| Start work | `launch` updates `Resource` state |
+| Join values | `async` / `await()` inside `coroutineScope` |
+| Threads | `withContext(Dispatchers.IO)` in fake data sources |
+| Delay | `delay()` — simulated APIs only |
+| Failure | `coroutineScope` is fail-fast; `CancellationException` is rethrown |
+| Retry | Same `refresh()` path; safe to tap more than once |
 
-Anything else returns `Resource.Error("Invalid credentials")`. Invalid form input never calls the fake login.
+Default homework path: `coroutineScope` + Retry. Partial success with `supervisorScope` is extra credit and is not required here.
 
-## Where Chapter 2 Kotlin is used
+## Key files
 
-| Feature | File |
-|---|---|
-| `Resource<out T>` — Loading / Success / Error / Empty | `core/common/Resource.kt` |
-| `User` data class | `feature/auth/domain/User.kt` |
-| `String.isValidEmail()` and `String.isStrongPassword()` | `utils/ValidationExtensions.kt` |
-| `let` for email/password pairing | `LoginViewModel.onLoginClick()` |
-| `also` when a successful user is created | `FakeAuthRepository.login()` |
-| `run` to build the welcome text | `LoginScreen` success branch |
-| Exhaustive `when` for UI state | `LoginStatePanel` |
-| No `!!` | Project-wide |
-
-Loading is simulated with `Handler.postDelayed` so the Loading screenshot is possible without coroutines. Chapter 3 replaces that delay with `viewModelScope` and `delay()`.
-
-## How to run
-
-1. Open this folder in Android Studio.
-2. Sync Gradle.
-3. Run the `app` configuration.
-4. Capture Idle, Loading, Success, and Error.
+```text
+feature/home/domain/LoadDashboardUseCase.kt
+feature/home/presentation/DashboardViewModel.kt
+feature/home/presentation/DashboardScreen.kt
+feature/profile/data/FakeProfileDataSource.kt
+feature/task/data/FakeTaskDataSource.kt
+feature/home/data/FakeNotificationDataSource.kt
+core/common/Resource.kt
+```
 
 ## Not in this chapter
 
-- Retrofit / real API
-- Coroutines / Flow
-- Room
+- Retrofit / OkHttp
+- Room / DataStore
 - Hilt
+- Flow collectors
 - Firebase
+- WorkManager

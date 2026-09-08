@@ -1,6 +1,6 @@
 package com.aal.taskflow.feature.task.domain
 
 /**
- * Task domain models stay empty until the feature is implemented.
+ * Task domain models for Chapter 3 live in [TaskPost].
  */
 object TaskModels

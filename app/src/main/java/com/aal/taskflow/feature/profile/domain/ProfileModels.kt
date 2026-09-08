@@ -1,6 +1,6 @@
 package com.aal.taskflow.feature.profile.domain
 
 /**
- * Profile domain models stay empty until Chapter 3.
+ * Profile domain models for Chapter 3 live in [Profile].
  */
 object ProfileModels

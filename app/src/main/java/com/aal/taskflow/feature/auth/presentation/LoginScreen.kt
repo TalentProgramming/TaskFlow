@@ -27,7 +27,10 @@ import com.aal.taskflow.feature.auth.data.FakeAuthRepository
 import com.aal.taskflow.feature.auth.domain.User
 
 @Composable
-fun LoginScreen(viewModel: LoginViewModel) {
+fun LoginScreen(
+    viewModel: LoginViewModel,
+    onContinueToDashboard: () -> Unit = {}
+) {
     Scaffold { innerPadding ->
         Column(
             modifier = Modifier
@@ -77,13 +80,19 @@ fun LoginScreen(viewModel: LoginViewModel) {
             ) {
                 Text("Login")
             }
-            LoginStatePanel(state = viewModel.state)
+            LoginStatePanel(
+                state = viewModel.state,
+                onContinueToDashboard = onContinueToDashboard
+            )
         }
     }
 }
 
 @Composable
-private fun LoginStatePanel(state: Resource<User>) {
+private fun LoginStatePanel(
+    state: Resource<User>,
+    onContinueToDashboard: () -> Unit
+) {
     when (state) {
         Resource.Empty -> {
             StatusCard(
@@ -107,11 +116,19 @@ private fun LoginStatePanel(state: Resource<User>) {
         }
         is Resource.Success -> {
             val welcome = state.data.run { "Welcome, $name" }
-            StatusCard(
-                title = "Success",
-                message = "$welcome\n${state.data.email}",
-                containerColor = MaterialTheme.colorScheme.primaryContainer
-            )
+            Column(verticalArrangement = Arrangement.spacedBy(12.dp)) {
+                StatusCard(
+                    title = "Success",
+                    message = "$welcome\n${state.data.email}",
+                    containerColor = MaterialTheme.colorScheme.primaryContainer
+                )
+                Button(
+                    onClick = onContinueToDashboard,
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text("Open dashboard")
+                }
+            }
         }
         is Resource.Error -> {
             StatusCard(
