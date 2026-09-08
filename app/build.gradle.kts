@@ -4,17 +4,13 @@ plugins {
 }
 
 android {
-    namespace = "com.aal.taskflow"
-    compileSdk {
-        version = release(36) {
-            minorApiLevel = 1
-        }
-    }
+    namespace = "com.tp.taskflow"
+    compileSdk= 37
 
     defaultConfig {
-        applicationId = "com.aal.taskflow"
+        applicationId = "com.tp.taskflow"
         minSdk = 26
-        targetSdk = 36
+        targetSdk = 37
         versionCode = 1
         versionName = "1.0"
 
