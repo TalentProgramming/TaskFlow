@@ -9,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 
-class FakeProductRepository : ProductRepository {
+class ProductRepositoryImpl : ProductRepository {
 
     override fun search(query: String): Flow<Resource<List<Product>>> = flow {
         emit(Resource.Loading)
@@ -18,7 +18,8 @@ class FakeProductRepository : ProductRepository {
             emit(Resource.Error("Search service unavailable"))
             return@flow
         }
-        val filtered = catalog.filter { product ->
+        val products = catalog.map { it.toDomain() }
+        val filtered = products.filter { product ->
             query.isBlank() ||
                 product.name.contains(query, ignoreCase = true) ||
                 product.category.contains(query, ignoreCase = true)
@@ -31,16 +32,16 @@ class FakeProductRepository : ProductRepository {
     private companion object {
         const val ERROR_QUERY = "error"
         val catalog = listOf(
-            Product("p-1", "Notebook Pro", "Stationery", 4.50),
-            Product("p-2", "Task Stickers", "Stationery", 2.00),
-            Product("p-3", "Focus Timer", "Gadgets", 18.00),
-            Product("p-4", "Desk Lamp", "Gadgets", 32.00),
-            Product("p-5", "Water Bottle", "Lifestyle", 12.00),
-            Product("p-6", "Canvas Backpack", "Lifestyle", 45.00),
-            Product("p-7", "Kotlin Handbook", "Books", 22.00),
-            Product("p-8", "Android Workbook", "Books", 19.00),
-            Product("p-9", "Wireless Mouse", "Gadgets", 16.00),
-            Product("p-10", "Plant Pot", "Lifestyle", 9.00)
+            ProductDto("p-1", "Notebook Pro", "Stationery", 4.50),
+            ProductDto("p-2", "Task Stickers", "Stationery", 2.00),
+            ProductDto("p-3", "Focus Timer", "Gadgets", 18.00),
+            ProductDto("p-4", "Desk Lamp", "Gadgets", 32.00),
+            ProductDto("p-5", "Water Bottle", "Lifestyle", 12.00),
+            ProductDto("p-6", "Canvas Backpack", "Lifestyle", 45.00),
+            ProductDto("p-7", "Kotlin Handbook", "Books", 22.00),
+            ProductDto("p-8", "Android Workbook", "Books", 19.00),
+            ProductDto("p-9", "Wireless Mouse", "Gadgets", 16.00),
+            ProductDto("p-10", "Plant Pot", "Lifestyle", 9.00)
         )
     }
 }

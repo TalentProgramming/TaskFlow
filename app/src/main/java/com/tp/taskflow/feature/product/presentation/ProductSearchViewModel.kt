@@ -3,9 +3,9 @@ package com.tp.taskflow.feature.product.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.tp.taskflow.core.common.Resource
-import com.tp.taskflow.feature.product.data.FakeProductRepository
+import com.tp.taskflow.di.ProductGraph
 import com.tp.taskflow.feature.product.domain.Product
-import com.tp.taskflow.feature.product.domain.ProductRepository
+import com.tp.taskflow.feature.product.domain.SearchProductsUseCase
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -22,7 +22,7 @@ import kotlinx.coroutines.launch
 
 @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
 class ProductSearchViewModel(
-    repository: ProductRepository = FakeProductRepository()
+    searchProducts: SearchProductsUseCase = ProductGraph.searchProducts
 ) : ViewModel() {
 
     private val _query = MutableStateFlow("")
@@ -31,7 +31,7 @@ class ProductSearchViewModel(
     val uiState: StateFlow<Resource<List<Product>>> = _query
         .debounce(SEARCH_DEBOUNCE_MS)
         .distinctUntilChanged()
-        .flatMapLatest { text -> repository.search(text) }
+        .flatMapLatest { text -> searchProducts(text) }
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5_000),
