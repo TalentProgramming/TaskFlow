@@ -2,63 +2,49 @@
 
 Production-style Android project for **Android Advanced Techniques**.
 
-**Chapter 3 — Kotlin Coroutines parallel dashboard**
+**Chapter 4 — Kotlin Flow, StateFlow & SharedFlow**
 
-After the Chapter 2 login simulation, the home dashboard loads profile, posts, and notifications together with `async` / `await`.
+This branch keeps Chapters 1–3 (flavors, signing, login, parallel dashboard) and adds a product search screen driven by Flow.
 
 ## How to demo
 
-1. Run the `app` configuration.
-2. Sign in with `student@example.com` / `123456`.
-3. Tap **Open dashboard**.
-4. First load fails on purpose (`Posts service unavailable`) so you can screenshot **Error** and tap **Retry**.
-5. Retry loads all three sources in parallel and shows **Success**.
+1. Sign in with `student@example.com` / `123456`.
+2. Open the dashboard, Retry if posts fail once, then tap **Search**.
+3. Type slowly — after 500 ms the list filters.
+4. Type a missing word (for example `zzzz`) for **Empty**.
+5. Type `error` for **Error**.
+6. Tap a product to see a SharedFlow snackbar.
 
-Watch Logcat tag `TaskFlow` for parallel timing. Sequential time would be about 800 + 900 + 1100 = 2800 ms.
-
-## Carried forward from Chapter 1
-
-Product flavors and release signing stay in this branch.
-
-| Flavor | Application ID | API URL | Release keystore |
-|---|---|---|---|
-| `staging` | `com.tp.taskflow.staging` | `https://staging-api.taskflow.local/v1/` | `development_keystore` |
-| `uat` | `com.tp.taskflow.uat` | `https://uat-api.taskflow.local/v1/` | `development_keystore` |
-| `prod` | `com.tp.taskflow` | `https://api.taskflow.app/v1/` | `production_keystore` |
-
-Copy `keystore.properties.example` to `keystore.properties`. Do not commit the keystores or that file.
-
-## Coroutine design
-
-| Piece | Choice |
-|---|---|
-| Scope | `viewModelScope` in `DashboardViewModel` — no data coroutine is started from the Activity |
-| Start work | `launch` updates `Resource` state |
-| Join values | `async` / `await()` inside `coroutineScope` |
-| Threads | `withContext(Dispatchers.IO)` in fake data sources |
-| Delay | `delay()` — simulated APIs only |
-| Failure | `coroutineScope` is fail-fast; `CancellationException` is rethrown |
-| Retry | Same `refresh()` path; safe to tap more than once |
-
-Default homework path: `coroutineScope` + Retry. Partial success with `supervisorScope` is extra credit and is not required here.
-
-## Key files
+## Flow pipeline
 
 ```text
-feature/home/domain/LoadDashboardUseCase.kt
-feature/home/presentation/DashboardViewModel.kt
-feature/home/presentation/DashboardScreen.kt
-feature/profile/data/FakeProfileDataSource.kt
-feature/task/data/FakeTaskDataSource.kt
-feature/home/data/FakeNotificationDataSource.kt
-core/common/Resource.kt
+query: StateFlow<String>
+   → debounce(500)
+   → distinctUntilChanged
+   → flatMapLatest(repository.search)
+   → StateFlow<Resource<List<Product>>>
 ```
+
+The search box is **not** stored only in the Composable. Collection uses `collectAsStateWithLifecycle`.
+
+| Query | Result |
+|---|---|
+| blank | All fake products |
+| `book` | Kotlin Handbook, Android Workbook |
+| `zzzz` | Empty |
+| `error` | Error — Search service unavailable |
+
+## Carried forward
+
+| From | Still here |
+|---|---|
+| Chapter 1 | `staging` / `uat` / `prod` flavors and release signing |
+| Chapter 2 | `Resource<T>` and the login simulator |
+| Chapter 3 | Parallel dashboard with `async` / `await` |
 
 ## Not in this chapter
 
 - Retrofit / OkHttp
 - Room / DataStore
 - Hilt
-- Flow collectors
 - Firebase
-- WorkManager

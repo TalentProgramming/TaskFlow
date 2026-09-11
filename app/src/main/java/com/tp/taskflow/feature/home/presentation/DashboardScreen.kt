@@ -31,7 +31,8 @@ import com.tp.taskflow.feature.task.domain.TaskPost
 @Composable
 fun DashboardScreen(
     viewModel: DashboardViewModel,
-    onLogout: () -> Unit
+    onLogout: () -> Unit,
+    onOpenSearch: () -> Unit = {}
 ) {
     Scaffold { innerPadding ->
         Column(
@@ -60,8 +61,13 @@ fun DashboardScreen(
                     )
                     EnvironmentBanner()
                 }
-                OutlinedButton(onClick = onLogout) {
-                    Text("Logout")
+                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    OutlinedButton(onClick = onOpenSearch) {
+                        Text("Search")
+                    }
+                    OutlinedButton(onClick = onLogout) {
+                        Text("Logout")
+                    }
                 }
             }
 

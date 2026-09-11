@@ -13,6 +13,8 @@ import com.tp.taskflow.feature.auth.presentation.LoginScreen
 import com.tp.taskflow.feature.auth.presentation.LoginViewModel
 import com.tp.taskflow.feature.home.presentation.DashboardScreen
 import com.tp.taskflow.feature.home.presentation.DashboardViewModel
+import com.tp.taskflow.feature.product.presentation.ProductSearchScreen
+import com.tp.taskflow.feature.product.presentation.ProductSearchViewModel
 import com.tp.taskflow.ui.theme.TaskFlowTheme
 
 class MainActivity : ComponentActivity() {
@@ -23,11 +25,19 @@ class MainActivity : ComponentActivity() {
             TaskFlowTheme {
                 var destination by rememberSaveable { mutableStateOf(DESTINATION_LOGIN) }
                 when (destination) {
+                    DESTINATION_SEARCH -> {
+                        val searchViewModel: ProductSearchViewModel = viewModel()
+                        ProductSearchScreen(
+                            viewModel = searchViewModel,
+                            onBack = { destination = DESTINATION_DASHBOARD }
+                        )
+                    }
                     DESTINATION_DASHBOARD -> {
                         val dashboardViewModel: DashboardViewModel = viewModel()
                         DashboardScreen(
                             viewModel = dashboardViewModel,
-                            onLogout = { destination = DESTINATION_LOGIN }
+                            onLogout = { destination = DESTINATION_LOGIN },
+                            onOpenSearch = { destination = DESTINATION_SEARCH }
                         )
                     }
                     else -> {
@@ -45,5 +55,6 @@ class MainActivity : ComponentActivity() {
     private companion object {
         const val DESTINATION_LOGIN = "login"
         const val DESTINATION_DASHBOARD = "dashboard"
+        const val DESTINATION_SEARCH = "search"
     }
 }
