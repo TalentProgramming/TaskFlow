@@ -3,9 +3,9 @@ package com.tp.taskflow.feature.product.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.tp.taskflow.core.common.Resource
-import com.tp.taskflow.di.ProductGraph
 import com.tp.taskflow.feature.product.domain.Product
 import com.tp.taskflow.feature.product.domain.SearchProductsUseCase
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -19,10 +19,12 @@ import kotlinx.coroutines.flow.distinctUntilChanged
 import kotlinx.coroutines.flow.flatMapLatest
 import kotlinx.coroutines.flow.stateIn
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
 @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
-class ProductSearchViewModel(
-    searchProducts: SearchProductsUseCase = ProductGraph.searchProducts
+@HiltViewModel
+class ProductSearchViewModel @Inject constructor(
+    searchProducts: SearchProductsUseCase
 ) : ViewModel() {
 
     private val _query = MutableStateFlow("")

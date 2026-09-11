@@ -5,7 +5,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 
-class FakeTaskDataSource : TaskDataSource {
+import javax.inject.Inject
+import javax.inject.Singleton
+
+@Singleton
+class FakeTaskDataSource @Inject constructor() : TaskDataSource {
     private var failNext = true
 
     suspend fun getPosts(): List<TaskPost> = withContext(Dispatchers.IO) {

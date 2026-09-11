@@ -8,7 +8,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
-import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.tp.taskflow.feature.auth.presentation.LoginScreen
 import com.tp.taskflow.feature.auth.presentation.LoginViewModel
 import com.tp.taskflow.feature.home.presentation.DashboardScreen
@@ -16,7 +16,9 @@ import com.tp.taskflow.feature.home.presentation.DashboardViewModel
 import com.tp.taskflow.feature.product.presentation.ProductSearchScreen
 import com.tp.taskflow.feature.product.presentation.ProductSearchViewModel
 import com.tp.taskflow.ui.theme.TaskFlowTheme
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,14 +28,14 @@ class MainActivity : ComponentActivity() {
                 var destination by rememberSaveable { mutableStateOf(DESTINATION_LOGIN) }
                 when (destination) {
                     DESTINATION_SEARCH -> {
-                        val searchViewModel: ProductSearchViewModel = viewModel()
+                        val searchViewModel: ProductSearchViewModel = hiltViewModel()
                         ProductSearchScreen(
                             viewModel = searchViewModel,
                             onBack = { destination = DESTINATION_DASHBOARD }
                         )
                     }
                     DESTINATION_DASHBOARD -> {
-                        val dashboardViewModel: DashboardViewModel = viewModel()
+                        val dashboardViewModel: DashboardViewModel = hiltViewModel()
                         DashboardScreen(
                             viewModel = dashboardViewModel,
                             onLogout = { destination = DESTINATION_LOGIN },
@@ -41,7 +43,7 @@ class MainActivity : ComponentActivity() {
                         )
                     }
                     else -> {
-                        val loginViewModel: LoginViewModel = viewModel()
+                        val loginViewModel: LoginViewModel = hiltViewModel()
                         LoginScreen(
                             viewModel = loginViewModel,
                             onContinueToDashboard = { destination = DESTINATION_DASHBOARD }

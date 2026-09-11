@@ -3,7 +3,9 @@ package com.tp.taskflow.feature.auth.data
 import com.tp.taskflow.core.common.Resource
 import com.tp.taskflow.feature.auth.domain.User
 
-class FakeAuthRepository {
+import javax.inject.Inject
+
+class FakeAuthRepository @Inject constructor() {
 
     fun login(email: String, password: String): Resource<User> {
         return if (email == DEMO_EMAIL && password == DEMO_PASSWORD) {

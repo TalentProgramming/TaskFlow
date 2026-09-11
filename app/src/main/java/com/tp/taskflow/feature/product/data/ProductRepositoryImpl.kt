@@ -9,7 +9,9 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.flowOn
 
-class ProductRepositoryImpl : ProductRepository {
+import javax.inject.Inject
+
+class ProductRepositoryImpl @Inject constructor() : ProductRepository {
 
     override fun search(query: String): Flow<Resource<List<Product>>> = flow {
         emit(Resource.Loading)

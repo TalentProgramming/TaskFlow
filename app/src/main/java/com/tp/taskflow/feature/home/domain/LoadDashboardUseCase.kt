@@ -7,7 +7,9 @@ import kotlinx.coroutines.coroutineScope
 import kotlin.coroutines.cancellation.CancellationException
 import kotlin.system.measureTimeMillis
 
-class LoadDashboardUseCase(
+import javax.inject.Inject
+
+class LoadDashboardUseCase @Inject constructor(
     private val repository: DashboardRepository
 ) {
     suspend operator fun invoke(): Resource<Dashboard> {

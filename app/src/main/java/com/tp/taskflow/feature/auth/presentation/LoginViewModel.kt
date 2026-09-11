@@ -11,9 +11,12 @@ import com.tp.taskflow.feature.auth.data.FakeAuthRepository
 import com.tp.taskflow.feature.auth.domain.User
 import com.tp.taskflow.utils.isStrongPassword
 import com.tp.taskflow.utils.isValidEmail
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class LoginViewModel(
-    private val repository: FakeAuthRepository = FakeAuthRepository()
+@HiltViewModel
+class LoginViewModel @Inject constructor(
+    private val repository: FakeAuthRepository
 ) : ViewModel() {
 
     var email by mutableStateOf("")

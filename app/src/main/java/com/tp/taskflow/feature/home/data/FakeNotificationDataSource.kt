@@ -5,7 +5,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 
-class FakeNotificationDataSource {
+import javax.inject.Inject
+
+class FakeNotificationDataSource @Inject constructor() {
     suspend fun getNotifications(): List<AppNotification> = withContext(Dispatchers.IO) {
         delay(1100)
         listOf(

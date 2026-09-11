@@ -5,7 +5,9 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.withContext
 
-class FakeProfileDataSource : ProfileDataSource {
+import javax.inject.Inject
+
+class FakeProfileDataSource @Inject constructor() : ProfileDataSource {
     suspend fun getProfile(): Profile = withContext(Dispatchers.IO) {
         delay(800)
         Profile(

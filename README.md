@@ -2,43 +2,47 @@
 
 Production-style Android project for **Android Advanced Techniques**.
 
-**Chapter 5 — Clean Architecture with Advanced MVVM**
+**Chapter 6 — Dependency Injection with Hilt**
 
-Chapter 4 search still works. The ViewModel no longer talks to a fake repository class. It talks to a use case.
+Chapter 5 layers stay. Hilt builds the graph. `ProductGraph` is gone.
 
 ```text
-ProductSearchScreen
+@HiltAndroidApp TaskFlowApp
         ↓
-ProductSearchViewModel
+@AndroidEntryPoint MainActivity
         ↓
-SearchProductsUseCase / GetProductsUseCase
+hiltViewModel()
         ↓
-ProductRepository (interface)
+@HiltViewModel Login / Dashboard / ProductSearch
         ↓
-ProductRepositoryImpl + ProductDto + toDomain()
+@Inject use cases
+        ↓
+@Binds ProductRepository / DashboardRepository
+        ↓
+@Inject impls + fake sources
 ```
 
-## Who depends on whom
+## What Hilt provides
 
-| Layer | Types | May import |
-|---|---|---|
-| presentation | Screen, ViewModel | domain use cases, `Product`, `Resource` |
-| domain | `Product`, `ProductRepository`, use cases | Kotlin / Flow / `Resource` only |
-| data | `ProductDto`, mapper, `ProductRepositoryImpl` | domain contracts |
-| di | `ProductGraph` | data impl + domain use cases |
+| Type | How |
+|---|---|
+| Use cases | `@Inject constructor` |
+| `ProductRepository` / `DashboardRepository` | `@Binds` + `@Singleton` |
+| Fake sources / impls | `@Inject constructor` |
+| ViewModels | `@HiltViewModel` |
 
-The ViewModel must not import `ProductDto` or `ProductRepositoryImpl`.
+No Retrofit or Room this chapter. Those modules arrive in Chapters 7–8 with `@Provides`.
 
 ## How to demo
 
-Same as Chapter 4: login → dashboard → **Search**. Debounce, Empty, and `error` still work.
+Same as Chapter 5: login → dashboard **Retry** → **Search**. Type `error` for the search error state.
 
 ## Carried forward
 
-Flavors, signing, `Resource`, login, parallel dashboard, Flow search.
+Flavors, signing, `Resource`, login, parallel dashboard, Flow search, Clean Architecture layers.
 
 ## Not in this chapter
 
-- Hilt (Chapter 6)
-- Retrofit / Room
+- Retrofit / OkHttp
+- Room / DataStore
 - Firebase

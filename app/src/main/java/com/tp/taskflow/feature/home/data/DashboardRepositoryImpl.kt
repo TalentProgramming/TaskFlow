@@ -7,10 +7,12 @@ import com.tp.taskflow.feature.profile.domain.Profile
 import com.tp.taskflow.feature.task.data.FakeTaskDataSource
 import com.tp.taskflow.feature.task.domain.TaskPost
 
-class DashboardRepositoryImpl(
-    private val profileDataSource: FakeProfileDataSource = FakeProfileDataSource(),
-    private val taskDataSource: FakeTaskDataSource = FakeTaskDataSource(),
-    private val notificationDataSource: FakeNotificationDataSource = FakeNotificationDataSource()
+import javax.inject.Inject
+
+class DashboardRepositoryImpl @Inject constructor(
+    private val profileDataSource: FakeProfileDataSource,
+    private val taskDataSource: FakeTaskDataSource,
+    private val notificationDataSource: FakeNotificationDataSource
 ) : DashboardRepository {
 
     override suspend fun getProfile(): Profile = profileDataSource.getProfile()
