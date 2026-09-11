@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.tp.taskflow.core.common.Resource
+import com.tp.taskflow.core.ui.EnvironmentBanner
 import com.tp.taskflow.feature.home.domain.AppNotification
 import com.tp.taskflow.feature.home.domain.Dashboard
 import com.tp.taskflow.feature.profile.domain.Profile
@@ -57,6 +58,7 @@ fun DashboardScreen(
                         style = MaterialTheme.typography.titleSmall,
                         color = MaterialTheme.colorScheme.primary
                     )
+                    EnvironmentBanner()
                 }
                 OutlinedButton(onClick = onLogout) {
                     Text("Logout")

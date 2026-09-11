@@ -16,6 +16,18 @@ After the Chapter 2 login simulation, the home dashboard loads profile, posts, a
 
 Watch Logcat tag `TaskFlow` for parallel timing. Sequential time would be about 800 + 900 + 1100 = 2800 ms.
 
+## Carried forward from Chapter 1
+
+Product flavors and release signing stay in this branch.
+
+| Flavor | Application ID | API URL | Release keystore |
+|---|---|---|---|
+| `staging` | `com.tp.taskflow.staging` | `https://staging-api.taskflow.local/v1/` | `development_keystore` |
+| `uat` | `com.tp.taskflow.uat` | `https://uat-api.taskflow.local/v1/` | `development_keystore` |
+| `prod` | `com.tp.taskflow` | `https://api.taskflow.app/v1/` | `production_keystore` |
+
+Copy `keystore.properties.example` to `keystore.properties`. Do not commit the keystores or that file.
+
 ## Coroutine design
 
 | Piece | Choice |
