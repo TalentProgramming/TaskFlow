@@ -23,6 +23,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.unit.dp
 import com.tp.taskflow.core.common.Resource
+import com.tp.taskflow.core.ui.EnvironmentBanner
 import com.tp.taskflow.feature.auth.data.FakeAuthRepository
 import com.tp.taskflow.feature.auth.domain.User
 
@@ -46,6 +47,7 @@ fun LoginScreen(viewModel: LoginViewModel) {
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.primary
             )
+            EnvironmentBanner()
             Text(
                 text = "Demo: ${FakeAuthRepository.DEMO_EMAIL} / ${FakeAuthRepository.DEMO_PASSWORD}",
                 style = MaterialTheme.typography.bodySmall,

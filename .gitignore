@@ -16,6 +16,9 @@ local.properties
 *.dex
 *.keystore
 *.jks
+development_keystore
+production_keystore
+keystore.properties
 *.log
 .navigation
 *.hprof
