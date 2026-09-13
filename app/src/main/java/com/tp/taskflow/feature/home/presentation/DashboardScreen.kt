@@ -48,7 +48,7 @@ fun DashboardScreen(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically
             ) {
-                Column {
+                Column(Modifier.weight(1f)) {
                     Text(
                         text = "TaskFlow",
                         style = MaterialTheme.typography.headlineMedium,
@@ -78,6 +78,7 @@ fun DashboardScreen(
                     message = state.message,
                     onRetry = viewModel::refresh
                 )
+
                 is Resource.Success -> DashboardContent(dashboard = state.data)
             }
         }
@@ -134,8 +135,15 @@ private fun ProfileCard(profile: Profile) {
         modifier = Modifier.fillMaxWidth(),
         colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
     ) {
-        Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-            Text("Profile", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.SemiBold)
+        Column(
+            modifier = Modifier.padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            Text(
+                "Profile",
+                style = MaterialTheme.typography.titleSmall,
+                fontWeight = FontWeight.SemiBold
+            )
             Text(profile.name, style = MaterialTheme.typography.titleMedium)
             Text(profile.email, style = MaterialTheme.typography.bodyMedium)
         }
@@ -145,7 +153,10 @@ private fun ProfileCard(profile: Profile) {
 @Composable
 private fun PostCard(post: TaskPost) {
     Card(modifier = Modifier.fillMaxWidth()) {
-        Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+        Column(
+            modifier = Modifier.padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
             Text(post.title, fontWeight = FontWeight.SemiBold)
             Text(post.note, style = MaterialTheme.typography.bodyMedium)
         }
@@ -155,7 +166,10 @@ private fun PostCard(post: TaskPost) {
 @Composable
 private fun NotificationCard(notification: AppNotification) {
     Card(modifier = Modifier.fillMaxWidth()) {
-        Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
+        Column(
+            modifier = Modifier.padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
             val suffix = if (notification.unread) " • unread" else ""
             Text(notification.title + suffix, fontWeight = FontWeight.SemiBold)
             Text(notification.message, style = MaterialTheme.typography.bodyMedium)
@@ -165,5 +179,9 @@ private fun NotificationCard(notification: AppNotification) {
 
 @Composable
 private fun SectionTitle(text: String) {
-    Text(text = text, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.SemiBold)
+    Text(
+        text = text,
+        style = MaterialTheme.typography.titleMedium,
+        fontWeight = FontWeight.SemiBold
+    )
 }
