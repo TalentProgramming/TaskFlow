@@ -9,7 +9,7 @@ import com.tp.taskflow.core.network.ApiConfig
 @Composable
 fun EnvironmentBanner(modifier: Modifier = Modifier) {
     Text(
-        text = "${ApiConfig.flavor} • ${ApiConfig.buildType} • ${ApiConfig.baseUrl}",
+        text = "${ApiConfig.flavor} • ${ApiConfig.buildType} • v${ApiConfig.versionName} (${ApiConfig.versionCode}) • ${ApiConfig.baseUrl}",
         modifier = modifier,
         style = MaterialTheme.typography.bodySmall,
         color = MaterialTheme.colorScheme.onSurfaceVariant
