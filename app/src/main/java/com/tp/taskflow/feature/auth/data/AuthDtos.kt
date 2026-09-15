@@ -8,14 +8,14 @@ data class LoginRequestDto(
 )
 
 data class TokenDto(
-    val token: String,
-    val user: UserDto
+    val token: String = "",
+    val user: UserDto = UserDto()
 )
 
 data class UserDto(
-    val id: String,
-    val name: String,
-    val email: String
+    val id: String = "",
+    val name: String = "",
+    val email: String = ""
 )
 
 fun UserDto.toDomain(): User = User(id, name, email)

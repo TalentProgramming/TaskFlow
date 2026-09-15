@@ -7,7 +7,9 @@ Login goes through Retrofit to the live classroom API:
 | Flavor | `API_BASE_URL` |
 |---|---|
 | staging / uat | `https://taskflowapi-7jb0.onrender.com/v1/` |
-| prod | `https://taskflowapiprod.onrender.com/v1/` |
+| prod | `https://taskflowapiprod.onrender.com/` |
+
+Redeploy `api/` after pulling these Flask fixes. `GET /` and `GET /v1/` now return JSON. Login is `POST /auth/login` — a browser GET only shows a hint.
 
 ```text
 LoginViewModel → LoginUseCase → AuthRepositoryImpl → TaskFlowApi
