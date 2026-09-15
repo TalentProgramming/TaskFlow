@@ -1,27 +1,21 @@
 # TaskFlow
 
-**Chapter 7 — Room Database & DataStore**
+**Chapter 8 — Retrofit + OkHttp**
 
-Notes are stored in Room. Dark mode is stored in DataStore. Kill the app; both survive.
+Login goes through Retrofit. A classroom mock interceptor returns JSON. The auth interceptor attaches `Bearer` after login.
 
 ```text
-NotesScreen → NotesViewModel → use cases → NoteRepository
+LoginViewModel → LoginUseCase → AuthRepositoryImpl → TaskFlowApi
         ↓
-NoteRepositoryImpl → NoteDao → TaskFlowDatabase
+TokenStore (DataStore) → AuthInterceptor → Authorization header
 ```
 
-Theme: `ThemeSettings` → Preferences DataStore → `ThemeViewModel` → `TaskFlowTheme`.
-
-## Demo
-
-1. Login → dashboard.
-2. Toggle **Dark**. Restart. Theme stays.
-3. Open **Notes**. Add / search / delete. Kill the app. Notes stay.
+Demo credentials stay `student@example.com` / `123456`. Wrong password returns 401.
 
 ## Carried forward
 
-Flavors, Hilt, Clean layers, login, dashboard, Flow search.
+Room notes, DataStore theme, Hilt, flavors.
 
-## Not yet
+## Not a public server
 
-Retrofit (Chapter 8), Paging (Chapter 9).
+`ClassroomMockInterceptor` is the backend for class. Inspector still shows the Bearer header on `/profile/me`.
