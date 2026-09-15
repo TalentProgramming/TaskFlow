@@ -51,6 +51,7 @@ class ClassroomMockInterceptor : Interceptor {
                 ok("""{"id":"u-1","name":"Aung Ko","email":"${FakeAuthRepository.DEMO_EMAIL}","photoUrl":"mock://photo"}""")
             }
             path.endsWith("/products") -> {
+                Thread.sleep(PAGE_DELAY_MS)
                 val q = request.url.queryParameter("q").orEmpty()
                 if (q.equals("error", ignoreCase = true)) {
                     ok("""{"message":"Search service unavailable"}""", 500)
@@ -67,5 +68,9 @@ class ClassroomMockInterceptor : Interceptor {
         val buffer = okio.Buffer()
         body.writeTo(buffer)
         return buffer.readUtf8()
+    }
+
+    private companion object {
+        const val PAGE_DELAY_MS = 800L
     }
 }

@@ -19,6 +19,16 @@ interface ProductDao {
     )
     fun pagingSource(query: String): PagingSource<Int, ProductEntity>
 
+    @Query(
+        """
+        SELECT COUNT(*) FROM products
+        WHERE :query = ''
+           OR name LIKE '%' || :query || '%'
+           OR category LIKE '%' || :query || '%'
+        """
+    )
+    suspend fun count(query: String): Int
+
     @Query("DELETE FROM products")
     suspend fun clear()
 

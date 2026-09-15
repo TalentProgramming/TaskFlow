@@ -28,7 +28,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import com.tp.taskflow.core.common.Resource
 import com.tp.taskflow.core.ui.EnvironmentBanner
 import com.tp.taskflow.feature.product.domain.Product
 
@@ -38,8 +37,9 @@ fun ProductSearchScreen(
     onBack: () -> Unit
 ) {
     val query by viewModel.query.collectAsStateWithLifecycle()
-    val state by viewModel.uiState.collectAsStateWithLifecycle()
     val paged = viewModel.pagedProducts.collectAsLazyPagingItems()
+    val refresh = paged.loadState.refresh
+    val append = paged.loadState.append
     val snackbarHostState = remember { SnackbarHostState() }
 
     LaunchedEffect(Unit) {
@@ -86,32 +86,37 @@ fun ProductSearchScreen(
                 },
                 singleLine = true
             )
-            when (val ui = state) {
-                Resource.Empty -> Text("Waiting for search…")
-                Resource.Loading -> {
+            when {
+                refresh is LoadState.Loading && paged.itemCount == 0 -> {
                     Column(
-                        modifier = Modifier.fillMaxWidth(),
-                        horizontalAlignment = Alignment.CenterHorizontally
+                        modifier = Modifier
+                            .weight(1f)
+                            .fillMaxWidth(),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center
                     ) {
                         CircularProgressIndicator()
-                        Text("Searching…", modifier = Modifier.padding(top = 12.dp))
+                        Text("Loading page 1…", modifier = Modifier.padding(top = 12.dp))
                     }
                 }
-                is Resource.Error -> {
+                refresh is LoadState.Error && paged.itemCount == 0 -> {
                     Card(modifier = Modifier.fillMaxWidth()) {
                         Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(8.dp)) {
                             Text("Could not search", fontWeight = FontWeight.SemiBold)
-                            Text(ui.message)
+                            Text(refresh.error.message ?: "Search failed")
                         }
                     }
                 }
-                is Resource.Success, Resource.Empty -> {
-                    LazyColumn(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                else -> {
+                    LazyColumn(
+                        modifier = Modifier.weight(1f),
+                        verticalArrangement = Arrangement.spacedBy(10.dp)
+                    ) {
                         items(paged.itemCount) { index ->
                             val product = paged[index] ?: return@items
                             ProductCard(product = product, onClick = { viewModel.onProductClick(product) })
                         }
-                        if (paged.loadState.append is LoadState.Loading) {
+                        if (append is LoadState.Loading) {
                             item {
                                 Column(
                                     modifier = Modifier
