@@ -1,5 +1,5 @@
 # TaskFlow
 
-**Chapter 12 — Navigation**
+**Chapter 13 — WorkManager**
 
-`NavHost` replaces the destination string. Bottom bar: Home / Search / Notes / Profile. `product/{id}` opens detail. Logout pops the graph.
+`SyncWorker` refreshes products into Room, then shows a notification. Periodic unique work + one-time enqueue on app start.
