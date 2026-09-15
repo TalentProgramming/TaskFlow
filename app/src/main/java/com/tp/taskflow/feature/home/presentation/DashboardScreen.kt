@@ -36,7 +36,8 @@ fun DashboardScreen(
     onToggleDarkMode: (Boolean) -> Unit = {},
     onLogout: () -> Unit,
     onOpenSearch: () -> Unit = {},
-    onOpenNotes: () -> Unit = {}
+    onOpenNotes: () -> Unit = {},
+    onOpenProfile: () -> Unit = {}
 ) {
     Scaffold { innerPadding ->
         Column(
@@ -72,6 +73,7 @@ fun DashboardScreen(
                     }
                     OutlinedButton(onClick = onOpenSearch) { Text("Search") }
                     OutlinedButton(onClick = onOpenNotes) { Text("Notes") }
+                    OutlinedButton(onClick = onOpenProfile) { Text("Profile") }
                     OutlinedButton(onClick = onLogout) { Text("Logout") }
                 }
             }

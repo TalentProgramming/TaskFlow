@@ -1,11 +1,5 @@
 # TaskFlow
 
-**Chapter 9 — Offline-first + Paging 3**
+**Chapter 10 — Compose fundamentals**
 
-Products refresh from Retrofit into Room. The list is a `PagingSource`. Airplane mode still shows the cached table.
-
-Type `error` to force HTTP 500.
-
-## Demo
-
-Search → list comes from Room. Kill network conceptually (mock still works); Database Inspector shows `products`.
+Reusable `ProductCard`, Profile screen, and `@Preview`s. No XML.

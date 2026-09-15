@@ -1,6 +1,5 @@
 package com.tp.taskflow.feature.product.presentation
 
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -111,20 +110,6 @@ fun ProductSearchScreen(
                     }
                 }
             }
-        }
-    }
-}
-
-@Composable
-private fun ProductCard(product: Product, onClick: () -> Unit) {
-    Card(
-        modifier = Modifier
-            .fillMaxWidth()
-            .clickable(onClick = onClick)
-    ) {
-        Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-            Text(product.name, fontWeight = FontWeight.SemiBold)
-            Text("${product.category} • $${"%.2f".format(product.price)}", style = MaterialTheme.typography.bodyMedium)
         }
     }
 }

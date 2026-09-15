@@ -19,6 +19,8 @@ import com.tp.taskflow.feature.note.presentation.NotesScreen
 import com.tp.taskflow.feature.note.presentation.NotesViewModel
 import com.tp.taskflow.feature.product.presentation.ProductSearchScreen
 import com.tp.taskflow.feature.product.presentation.ProductSearchViewModel
+import com.tp.taskflow.feature.profile.presentation.ProfileScreen
+import com.tp.taskflow.feature.profile.presentation.ProfileViewModel
 import com.tp.taskflow.ui.theme.TaskFlowTheme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -40,6 +42,13 @@ class MainActivity : ComponentActivity() {
                             onBack = { destination = DESTINATION_DASHBOARD }
                         )
                     }
+                    DESTINATION_PROFILE -> {
+                        val profileViewModel: ProfileViewModel = hiltViewModel()
+                        ProfileScreen(
+                            viewModel = profileViewModel,
+                            onBack = { destination = DESTINATION_DASHBOARD }
+                        )
+                    }
                     DESTINATION_NOTES -> {
                         val notesViewModel: NotesViewModel = hiltViewModel()
                         NotesScreen(
@@ -55,7 +64,8 @@ class MainActivity : ComponentActivity() {
                             onToggleDarkMode = themeViewModel::setDark,
                             onLogout = { destination = DESTINATION_LOGIN },
                             onOpenSearch = { destination = DESTINATION_SEARCH },
-                            onOpenNotes = { destination = DESTINATION_NOTES }
+                            onOpenNotes = { destination = DESTINATION_NOTES },
+                            onOpenProfile = { destination = DESTINATION_PROFILE }
                         )
                     }
                     else -> {
@@ -75,5 +85,6 @@ class MainActivity : ComponentActivity() {
         const val DESTINATION_DASHBOARD = "dashboard"
         const val DESTINATION_SEARCH = "search"
         const val DESTINATION_NOTES = "notes"
+        const val DESTINATION_PROFILE = "profile"
     }
 }
