@@ -11,6 +11,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
@@ -30,7 +31,8 @@ import com.tp.taskflow.feature.auth.domain.User
 @Composable
 fun LoginScreen(
     viewModel: LoginViewModel,
-    onContinueToDashboard: () -> Unit = {}
+    onContinueToDashboard: () -> Unit = {},
+    onOpenRegister: () -> Unit = {}
 ) {
     Scaffold { innerPadding ->
         Column(
@@ -81,6 +83,9 @@ fun LoginScreen(
                 enabled = viewModel.state !is Resource.Loading
             ) {
                 Text("Login")
+            }
+            OutlinedButton(onClick = onOpenRegister, modifier = Modifier.fillMaxWidth()) {
+                Text("Create account")
             }
             LoginStatePanel(
                 state = viewModel.state,

@@ -1,5 +1,5 @@
 # TaskFlow
 
-**Chapter 10 — Compose fundamentals**
+**Chapter 11 — Registration form**
 
-Reusable `ProductCard`, Profile screen, and `@Preview`s. No XML.
+Form state lives in `RegisterViewModel`. The Activity has no email/password fields.

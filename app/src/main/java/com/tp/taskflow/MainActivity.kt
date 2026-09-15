@@ -13,6 +13,8 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.tp.taskflow.core.ui.ThemeViewModel
 import com.tp.taskflow.feature.auth.presentation.LoginScreen
 import com.tp.taskflow.feature.auth.presentation.LoginViewModel
+import com.tp.taskflow.feature.auth.presentation.RegisterScreen
+import com.tp.taskflow.feature.auth.presentation.RegisterViewModel
 import com.tp.taskflow.feature.home.presentation.DashboardScreen
 import com.tp.taskflow.feature.home.presentation.DashboardViewModel
 import com.tp.taskflow.feature.note.presentation.NotesScreen
@@ -68,11 +70,20 @@ class MainActivity : ComponentActivity() {
                             onOpenProfile = { destination = DESTINATION_PROFILE }
                         )
                     }
+                    DESTINATION_REGISTER -> {
+                        val registerViewModel: RegisterViewModel = hiltViewModel()
+                        RegisterScreen(
+                            viewModel = registerViewModel,
+                            onBack = { destination = DESTINATION_LOGIN },
+                            onSuccess = { destination = DESTINATION_DASHBOARD }
+                        )
+                    }
                     else -> {
                         val loginViewModel: LoginViewModel = hiltViewModel()
                         LoginScreen(
                             viewModel = loginViewModel,
-                            onContinueToDashboard = { destination = DESTINATION_DASHBOARD }
+                            onContinueToDashboard = { destination = DESTINATION_DASHBOARD },
+                            onOpenRegister = { destination = DESTINATION_REGISTER }
                         )
                     }
                 }
@@ -82,6 +93,7 @@ class MainActivity : ComponentActivity() {
 
     private companion object {
         const val DESTINATION_LOGIN = "login"
+        const val DESTINATION_REGISTER = "register"
         const val DESTINATION_DASHBOARD = "dashboard"
         const val DESTINATION_SEARCH = "search"
         const val DESTINATION_NOTES = "notes"
