@@ -1,5 +1,5 @@
 # TaskFlow
 
-**Chapter 13 — WorkManager**
+**Chapter 14 — Chat + Firebase rules**
 
-`SyncWorker` refreshes products into Room, then shows a notification. Periodic unique work + one-time enqueue on app start.
+Chat uses `ChatRepository` and Room so the app compiles without a Firebase project. Swap the impl for Firestore in class. Security rules are in `firestore.rules`. Do not commit a real `google-services.json` — use the example file.

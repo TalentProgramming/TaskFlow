@@ -15,6 +15,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
 import com.tp.taskflow.core.ui.ThemeViewModel
+import com.tp.taskflow.feature.chat.presentation.ChatScreen
 import com.tp.taskflow.feature.auth.presentation.LoginScreen
 import com.tp.taskflow.feature.auth.presentation.RegisterScreen
 import com.tp.taskflow.feature.home.presentation.DashboardScreen
@@ -31,7 +32,7 @@ fun TaskFlowNavHost(
     val nav = rememberNavController()
     val backStack by nav.currentBackStackEntryAsState()
     val route = backStack?.destination?.route
-    val tabs = listOf(Routes.Home, Routes.Search, Routes.Notes, Routes.Profile)
+    val tabs = listOf(Routes.Home, Routes.Search, Routes.Notes, Routes.Profile, Routes.Chat)
     val showBar = route in tabs
 
     Scaffold(
@@ -110,6 +111,9 @@ fun TaskFlowNavHost(
             }
             composable(Routes.Profile) {
                 ProfileScreen(viewModel = hiltViewModel(), onBack = { nav.popBackStack() })
+            }
+            composable(Routes.Chat) {
+                ChatScreen(viewModel = hiltViewModel())
             }
             composable(Routes.ProductDetail) { entry ->
                 val id = entry.arguments?.getString("id").orEmpty()

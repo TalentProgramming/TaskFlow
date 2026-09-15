@@ -7,6 +7,7 @@ object Routes {
     const val Search = "search"
     const val Notes = "notes"
     const val Profile = "profile"
+    const val Chat = "chat"
     const val ProductDetail = "product/{id}"
 
     fun product(id: String) = "product/$id"
