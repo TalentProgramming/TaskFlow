@@ -1,5 +1,5 @@
 # TaskFlow
 
-**Chapter 11 — Registration form**
+**Chapter 12 — Navigation**
 
-Form state lives in `RegisterViewModel`. The Activity has no email/password fields.
+`NavHost` replaces the destination string. Bottom bar: Home / Search / Notes / Profile. `product/{id}` opens detail. Logout pops the graph.

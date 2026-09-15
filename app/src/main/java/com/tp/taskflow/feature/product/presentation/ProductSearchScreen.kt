@@ -33,7 +33,8 @@ import com.tp.taskflow.feature.product.domain.Product
 @Composable
 fun ProductSearchScreen(
     viewModel: ProductSearchViewModel,
-    onBack: () -> Unit
+    onBack: () -> Unit,
+    onOpenProduct: (String) -> Unit = {}
 ) {
     val query by viewModel.query.collectAsStateWithLifecycle()
     val state by viewModel.uiState.collectAsStateWithLifecycle()
@@ -105,7 +106,13 @@ fun ProductSearchScreen(
                     LazyColumn(verticalArrangement = Arrangement.spacedBy(10.dp)) {
                         items(paged.itemCount) { index ->
                             val product = paged[index] ?: return@items
-                            ProductCard(product = product, onClick = { viewModel.onProductClick(product) })
+                            ProductCard(
+                                product = product,
+                                onClick = {
+                                    viewModel.onProductClick(product)
+                                    onOpenProduct(product.id)
+                                }
+                            )
                         }
                     }
                 }
