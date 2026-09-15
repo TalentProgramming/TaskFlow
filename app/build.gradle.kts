@@ -78,6 +78,11 @@ android {
         }
         release {
             isDebuggable = false
+            isMinifyEnabled = true
+            proguardFiles(
+                getDefaultProguardFile("proguard-android-optimize.txt"),
+                "proguard-rules.pro"
+            )
             optimization {
                 enable = false
             }
@@ -113,6 +118,8 @@ dependencies {
     implementation(libs.androidx.work.runtime)
     implementation(libs.androidx.hilt.work)
     ksp(libs.androidx.hilt.compiler)
+    implementation(libs.androidx.security.crypto)
+    testImplementation(libs.kotlinx.coroutines.test)
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.room.paging)

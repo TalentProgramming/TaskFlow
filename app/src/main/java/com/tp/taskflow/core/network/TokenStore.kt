@@ -1,29 +1,35 @@
 package com.tp.taskflow.core.network
 
-import androidx.datastore.core.DataStore
-import androidx.datastore.preferences.core.Preferences
-import androidx.datastore.preferences.core.edit
-import androidx.datastore.preferences.core.stringPreferencesKey
-import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
+import android.content.Context
+import androidx.security.crypto.EncryptedSharedPreferences
+import androidx.security.crypto.MasterKey
+import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
 class TokenStore @Inject constructor(
-    private val dataStore: DataStore<Preferences>
+    @ApplicationContext context: Context
 ) {
-    suspend fun read(): String? = dataStore.data.map { it[TOKEN] }.first()
+    private val prefs = EncryptedSharedPreferences.create(
+        context,
+        "secure_token",
+        MasterKey.Builder(context).setKeyScheme(MasterKey.KeyScheme.AES256_GCM).build(),
+        EncryptedSharedPreferences.PrefKeyEncryptionScheme.AES256_SIV,
+        EncryptedSharedPreferences.PrefValueEncryptionScheme.AES256_GCM
+    )
 
-    suspend fun save(token: String) {
-        dataStore.edit { it[TOKEN] = token }
+    fun read(): String? = prefs.getString(TOKEN, null)
+
+    fun save(token: String) {
+        prefs.edit().putString(TOKEN, token).apply()
     }
 
-    suspend fun clear() {
-        dataStore.edit { it.remove(TOKEN) }
+    fun clear() {
+        prefs.edit().remove(TOKEN).apply()
     }
 
     private companion object {
-        val TOKEN = stringPreferencesKey("auth_token")
+        const val TOKEN = "auth_token"
     }
 }

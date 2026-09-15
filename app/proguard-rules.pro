@@ -1,0 +1,7 @@
+-keepattributes Signature, InnerClasses, EnclosingMethod, RuntimeVisibleAnnotations
+-keep class com.tp.taskflow.** { *; }
+-keep class retrofit2.** { *; }
+-keep class com.google.gson.** { *; }
+-dontwarn retrofit2.**
+-dontwarn okhttp3.**
+-dontwarn okio.**

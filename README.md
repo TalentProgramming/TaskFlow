@@ -1,5 +1,10 @@
 # TaskFlow
 
-**Chapter 14 — Chat + Firebase rules**
+**Chapter 15 — Testing, performance, security**
 
-Chat uses `ChatRepository` and Room so the app compiles without a Firebase project. Swap the impl for Firestore in class. Security rules are in `firestore.rules`. Do not commit a real `google-services.json` — use the example file.
+- Token lives in EncryptedSharedPreferences
+- HTTPS only (`network_security_config`)
+- Release minify + R8 rules
+- Unit tests: validation + `RegisterForm`
+
+Run: `./gradlew test`
