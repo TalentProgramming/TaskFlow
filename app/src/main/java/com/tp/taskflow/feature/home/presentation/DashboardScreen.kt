@@ -55,7 +55,7 @@ fun DashboardScreen(
                         fontWeight = FontWeight.Bold
                     )
                     Text(
-                        text = "Chapter 3 • Parallel dashboard",
+                        text = "Chapter 4 • Flow product search",
                         style = MaterialTheme.typography.titleSmall,
                         color = MaterialTheme.colorScheme.primary
                     )
