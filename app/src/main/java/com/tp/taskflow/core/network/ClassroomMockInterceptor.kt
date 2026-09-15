@@ -1,6 +1,7 @@
 package com.tp.taskflow.core.network
 
 import com.tp.taskflow.feature.auth.data.FakeAuthRepository
+import com.tp.taskflow.feature.product.data.ClassroomProductCatalog
 import okhttp3.Interceptor
 import okhttp3.MediaType.Companion.toMediaType
 import okhttp3.Protocol
@@ -54,7 +55,8 @@ class ClassroomMockInterceptor : Interceptor {
                 if (q.equals("error", ignoreCase = true)) {
                     ok("""{"message":"Search service unavailable"}""", 500)
                 } else {
-                    ok(PRODUCTS)
+                    val page = request.url.queryParameter("page")?.toIntOrNull() ?: 1
+                    ok(ClassroomProductCatalog.toJson(ClassroomProductCatalog.page(q, page)))
                 }
             }
             else -> ok("""{"message":"Not found"}""", 404)
@@ -65,20 +67,5 @@ class ClassroomMockInterceptor : Interceptor {
         val buffer = okio.Buffer()
         body.writeTo(buffer)
         return buffer.readUtf8()
-    }
-
-    private companion object {
-        const val PRODUCTS = """[
-          {"product_id":"p-1","title":"Notebook Pro","type":"Stationery","amount":4.5},
-          {"product_id":"p-2","title":"Task Stickers","type":"Stationery","amount":2.0},
-          {"product_id":"p-3","title":"Focus Timer","type":"Gadgets","amount":18.0},
-          {"product_id":"p-4","title":"Desk Lamp","type":"Gadgets","amount":32.0},
-          {"product_id":"p-5","title":"Water Bottle","type":"Lifestyle","amount":12.0},
-          {"product_id":"p-6","title":"Canvas Backpack","type":"Lifestyle","amount":45.0},
-          {"product_id":"p-7","title":"Kotlin Handbook","type":"Books","amount":22.0},
-          {"product_id":"p-8","title":"Android Workbook","type":"Books","amount":19.0},
-          {"product_id":"p-9","title":"Wireless Mouse","type":"Gadgets","amount":16.0},
-          {"product_id":"p-10","title":"Plant Pot","type":"Lifestyle","amount":9.0}
-        ]"""
     }
 }

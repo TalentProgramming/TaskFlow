@@ -35,12 +35,25 @@ class ProductRepositoryImpl @Inject constructor(
 
     override fun paged(query: String): Flow<PagingData<Product>> =
         Pager(
-            config = PagingConfig(pageSize = 10, enablePlaceholders = false),
+            config = PagingConfig(
+                pageSize = ClassroomProductCatalog.PAGE_SIZE,
+                enablePlaceholders = false,
+                prefetchDistance = 2
+            ),
             pagingSourceFactory = { dao.pagingSource(query) }
         ).flow.map { paging -> paging.map { it.toDomain() } }
 
     override suspend fun refresh(query: String) {
-        val remote = api.products(query)
+        val remote = buildList {
+            var page = 1
+            while (true) {
+                val chunk = api.products(query, page)
+                if (chunk.isEmpty()) break
+                addAll(chunk)
+                if (chunk.size < ClassroomProductCatalog.PAGE_SIZE) break
+                page++
+            }
+        }
         dao.clear()
         dao.insertAll(remote.map { it.toEntity() })
     }

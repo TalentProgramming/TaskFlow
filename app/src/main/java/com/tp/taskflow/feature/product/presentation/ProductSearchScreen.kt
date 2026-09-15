@@ -9,6 +9,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Card
+import androidx.paging.LoadState
 import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
@@ -80,7 +81,9 @@ fun ProductSearchScreen(
                 onValueChange = viewModel::onQueryChange,
                 modifier = Modifier.fillMaxWidth(),
                 label = { Text("Search products") },
-                supportingText = { Text("Debounced 500 ms. Type error to see the error state.") },
+                supportingText = {
+                    Text("40 products • 8 per page. Scroll for pages 2–5. Type error for HTTP 500.")
+                },
                 singleLine = true
             )
             when (val ui = state) {
@@ -107,6 +110,19 @@ fun ProductSearchScreen(
                         items(paged.itemCount) { index ->
                             val product = paged[index] ?: return@items
                             ProductCard(product = product, onClick = { viewModel.onProductClick(product) })
+                        }
+                        if (paged.loadState.append is LoadState.Loading) {
+                            item {
+                                Column(
+                                    modifier = Modifier
+                                        .fillMaxWidth()
+                                        .padding(16.dp),
+                                    horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
+                                    CircularProgressIndicator()
+                                    Text("Loading next page…", modifier = Modifier.padding(top = 8.dp))
+                                }
+                            }
                         }
                     }
                 }
