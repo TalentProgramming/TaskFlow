@@ -2,12 +2,16 @@ package com.tp.taskflow.feature.product.presentation
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagingData
+import androidx.paging.cachedIn
 import com.tp.taskflow.core.common.Resource
+import com.tp.taskflow.feature.product.domain.ObservePagedProductsUseCase
 import com.tp.taskflow.feature.product.domain.Product
 import com.tp.taskflow.feature.product.domain.SearchProductsUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.FlowPreview
+import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.SharingStarted
@@ -24,21 +28,28 @@ import javax.inject.Inject
 @OptIn(FlowPreview::class, ExperimentalCoroutinesApi::class)
 @HiltViewModel
 class ProductSearchViewModel @Inject constructor(
-    searchProducts: SearchProductsUseCase
+    searchProducts: SearchProductsUseCase,
+    observePaged: ObservePagedProductsUseCase
 ) : ViewModel() {
 
     private val _query = MutableStateFlow("")
     val query: StateFlow<String> = _query.asStateFlow()
 
-    val uiState: StateFlow<Resource<List<Product>>> = _query
+    private val debouncedQuery = _query
         .debounce(SEARCH_DEBOUNCE_MS)
         .distinctUntilChanged()
+
+    val uiState: StateFlow<Resource<List<Product>>> = debouncedQuery
         .flatMapLatest { text -> searchProducts(text) }
         .stateIn(
             scope = viewModelScope,
             started = SharingStarted.WhileSubscribed(5_000),
             initialValue = Resource.Empty
         )
+
+    val pagedProducts: Flow<PagingData<Product>> = debouncedQuery
+        .flatMapLatest { text -> observePaged(text) }
+        .cachedIn(viewModelScope)
 
     private val _events = MutableSharedFlow<String>()
     val events = _events.asSharedFlow()

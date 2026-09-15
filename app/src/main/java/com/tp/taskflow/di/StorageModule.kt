@@ -7,6 +7,7 @@ import androidx.datastore.preferences.preferencesDataStore
 import androidx.room.Room
 import com.tp.taskflow.core.database.TaskFlowDatabase
 import com.tp.taskflow.feature.note.data.NoteDao
+import com.tp.taskflow.feature.product.data.ProductDao
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -34,4 +35,7 @@ object StorageModule {
 
     @Provides
     fun provideNoteDao(database: TaskFlowDatabase): NoteDao = database.noteDao()
+
+    @Provides
+    fun provideProductDao(database: TaskFlowDatabase): ProductDao = database.productDao()
 }

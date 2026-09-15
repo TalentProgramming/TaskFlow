@@ -8,3 +8,12 @@ fun ProductDto.toDomain(): Product = Product(
     category = type,
     price = amount
 )
+
+fun ProductDto.toEntity(): ProductEntity = ProductEntity(
+    id = product_id,
+    name = title,
+    category = type,
+    price = amount
+)
+
+fun ProductEntity.toDomain(): Product = Product(id, name, category, price)

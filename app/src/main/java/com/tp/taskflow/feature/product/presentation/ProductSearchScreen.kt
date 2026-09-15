@@ -8,8 +8,8 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.Card
+import androidx.paging.compose.collectAsLazyPagingItems
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
@@ -38,6 +38,7 @@ fun ProductSearchScreen(
 ) {
     val query by viewModel.query.collectAsStateWithLifecycle()
     val state by viewModel.uiState.collectAsStateWithLifecycle()
+    val paged = viewModel.pagedProducts.collectAsLazyPagingItems()
     val snackbarHostState = remember { SnackbarHostState() }
 
     LaunchedEffect(Unit) {
@@ -64,7 +65,7 @@ fun ProductSearchScreen(
                 Column(modifier = Modifier.weight(1f)) {
                     Text("TaskFlow", style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
                     Text(
-                        text = "Chapter 4 • Product search",
+                        text = "Chapter 9 • Offline + Paging",
                         style = MaterialTheme.typography.titleSmall,
                         color = MaterialTheme.colorScheme.primary
                     )
@@ -101,9 +102,10 @@ fun ProductSearchScreen(
                         }
                     }
                 }
-                is Resource.Success -> {
+                is Resource.Success, Resource.Empty -> {
                     LazyColumn(verticalArrangement = Arrangement.spacedBy(10.dp)) {
-                        items(ui.data, key = { it.id }) { product ->
+                        items(paged.itemCount) { index ->
+                            val product = paged[index] ?: return@items
                             ProductCard(product = product, onClick = { viewModel.onProductClick(product) })
                         }
                     }
