@@ -59,7 +59,7 @@ fun DashboardScreen(
                         fontWeight = FontWeight.Bold
                     )
                     Text(
-                        text = "Chapter 7 • Room notes + dark mode",
+                        text = "Chapter 8 • Retrofit + OkHttp",
                         style = MaterialTheme.typography.titleSmall,
                         color = MaterialTheme.colorScheme.primary
                     )
