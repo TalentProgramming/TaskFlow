@@ -65,7 +65,7 @@ android {
         }
         create("prod") {
             dimension = "environment"
-            buildConfigField("String", "API_BASE_URL", "\"https://taskflowapi-7jb0.onrender.com/v1/\"")
+            buildConfigField("String", "API_BASE_URL", "\"https://taskflowapiprod.onrender.com/v1/\"")
             buildConfigField("String", "ENV_NAME", "\"production\"")
             resValue("string", "app_name", "TaskFlow")
             signingConfigs.findByName("production")?.let { signingConfig = it }

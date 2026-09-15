@@ -4,14 +4,15 @@
 
 Login goes through Retrofit to the live classroom API:
 
-`https://taskflowapi-7jb0.onrender.com/v1/`
+| Flavor | `API_BASE_URL` |
+|---|---|
+| staging / uat | `https://taskflowapi-7jb0.onrender.com/v1/` |
+| prod | `https://taskflowapiprod.onrender.com/v1/` |
 
 ```text
 LoginViewModel → LoginUseCase → AuthRepositoryImpl → TaskFlowApi
         ↓
 TokenStore (DataStore) → AuthInterceptor → Authorization: Bearer
-        ↓
-https://taskflowapi-7jb0.onrender.com
 ```
 
 Demo credentials: `student@example.com` / `123456`. Wrong password returns 401.
