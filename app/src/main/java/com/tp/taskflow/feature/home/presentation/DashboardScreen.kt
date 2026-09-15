@@ -15,6 +15,7 @@ import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Switch
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -31,8 +32,11 @@ import com.tp.taskflow.feature.task.domain.TaskPost
 @Composable
 fun DashboardScreen(
     viewModel: DashboardViewModel,
+    darkMode: Boolean = false,
+    onToggleDarkMode: (Boolean) -> Unit = {},
     onLogout: () -> Unit,
-    onOpenSearch: () -> Unit = {}
+    onOpenSearch: () -> Unit = {},
+    onOpenNotes: () -> Unit = {}
 ) {
     Scaffold { innerPadding ->
         Column(
@@ -55,19 +59,20 @@ fun DashboardScreen(
                         fontWeight = FontWeight.Bold
                     )
                     Text(
-                        text = "Chapter 3 • Parallel dashboard",
+                        text = "Chapter 7 • Room notes + dark mode",
                         style = MaterialTheme.typography.titleSmall,
                         color = MaterialTheme.colorScheme.primary
                     )
                     EnvironmentBanner()
                 }
-                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                    OutlinedButton(onClick = onOpenSearch) {
-                        Text("Search")
+                Column(verticalArrangement = Arrangement.spacedBy(8.dp), horizontalAlignment = Alignment.End) {
+                    Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                        Text("Dark")
+                        Switch(checked = darkMode, onCheckedChange = onToggleDarkMode)
                     }
-                    OutlinedButton(onClick = onLogout) {
-                        Text("Logout")
-                    }
+                    OutlinedButton(onClick = onOpenSearch) { Text("Search") }
+                    OutlinedButton(onClick = onOpenNotes) { Text("Notes") }
+                    OutlinedButton(onClick = onLogout) { Text("Logout") }
                 }
             }
 

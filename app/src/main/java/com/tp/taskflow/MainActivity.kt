@@ -9,10 +9,14 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.tp.taskflow.core.ui.ThemeViewModel
 import com.tp.taskflow.feature.auth.presentation.LoginScreen
 import com.tp.taskflow.feature.auth.presentation.LoginViewModel
 import com.tp.taskflow.feature.home.presentation.DashboardScreen
 import com.tp.taskflow.feature.home.presentation.DashboardViewModel
+import com.tp.taskflow.feature.note.presentation.NotesScreen
+import com.tp.taskflow.feature.note.presentation.NotesViewModel
 import com.tp.taskflow.feature.product.presentation.ProductSearchScreen
 import com.tp.taskflow.feature.product.presentation.ProductSearchViewModel
 import com.tp.taskflow.ui.theme.TaskFlowTheme
@@ -24,7 +28,9 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            TaskFlowTheme {
+            val themeViewModel: ThemeViewModel = hiltViewModel()
+            val darkMode by themeViewModel.darkMode.collectAsStateWithLifecycle()
+            TaskFlowTheme(darkTheme = darkMode) {
                 var destination by rememberSaveable { mutableStateOf(DESTINATION_LOGIN) }
                 when (destination) {
                     DESTINATION_SEARCH -> {
@@ -34,12 +40,22 @@ class MainActivity : ComponentActivity() {
                             onBack = { destination = DESTINATION_DASHBOARD }
                         )
                     }
+                    DESTINATION_NOTES -> {
+                        val notesViewModel: NotesViewModel = hiltViewModel()
+                        NotesScreen(
+                            viewModel = notesViewModel,
+                            onBack = { destination = DESTINATION_DASHBOARD }
+                        )
+                    }
                     DESTINATION_DASHBOARD -> {
                         val dashboardViewModel: DashboardViewModel = hiltViewModel()
                         DashboardScreen(
                             viewModel = dashboardViewModel,
+                            darkMode = darkMode,
+                            onToggleDarkMode = themeViewModel::setDark,
                             onLogout = { destination = DESTINATION_LOGIN },
-                            onOpenSearch = { destination = DESTINATION_SEARCH }
+                            onOpenSearch = { destination = DESTINATION_SEARCH },
+                            onOpenNotes = { destination = DESTINATION_NOTES }
                         )
                     }
                     else -> {
@@ -58,5 +74,6 @@ class MainActivity : ComponentActivity() {
         const val DESTINATION_LOGIN = "login"
         const val DESTINATION_DASHBOARD = "dashboard"
         const val DESTINATION_SEARCH = "search"
+        const val DESTINATION_NOTES = "notes"
     }
 }

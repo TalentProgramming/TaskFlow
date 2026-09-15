@@ -1,48 +1,27 @@
 # TaskFlow
 
-Production-style Android project for **Android Advanced Techniques**.
+**Chapter 7 — Room Database & DataStore**
 
-**Chapter 6 — Dependency Injection with Hilt**
-
-Chapter 5 layers stay. Hilt builds the graph. `ProductGraph` is gone.
+Notes are stored in Room. Dark mode is stored in DataStore. Kill the app; both survive.
 
 ```text
-@HiltAndroidApp TaskFlowApp
+NotesScreen → NotesViewModel → use cases → NoteRepository
         ↓
-@AndroidEntryPoint MainActivity
-        ↓
-hiltViewModel()
-        ↓
-@HiltViewModel Login / Dashboard / ProductSearch
-        ↓
-@Inject use cases
-        ↓
-@Binds ProductRepository / DashboardRepository
-        ↓
-@Inject impls + fake sources
+NoteRepositoryImpl → NoteDao → TaskFlowDatabase
 ```
 
-## What Hilt provides
+Theme: `ThemeSettings` → Preferences DataStore → `ThemeViewModel` → `TaskFlowTheme`.
 
-| Type | How |
-|---|---|
-| Use cases | `@Inject constructor` |
-| `ProductRepository` / `DashboardRepository` | `@Binds` + `@Singleton` |
-| Fake sources / impls | `@Inject constructor` |
-| ViewModels | `@HiltViewModel` |
+## Demo
 
-No Retrofit or Room this chapter. Those modules arrive in Chapters 7–8 with `@Provides`.
-
-## How to demo
-
-Same as Chapter 5: login → dashboard **Retry** → **Search**. Type `error` for the search error state.
+1. Login → dashboard.
+2. Toggle **Dark**. Restart. Theme stays.
+3. Open **Notes**. Add / search / delete. Kill the app. Notes stay.
 
 ## Carried forward
 
-Flavors, signing, `Resource`, login, parallel dashboard, Flow search, Clean Architecture layers.
+Flavors, Hilt, Clean layers, login, dashboard, Flow search.
 
-## Not in this chapter
+## Not yet
 
-- Retrofit / OkHttp
-- Room / DataStore
-- Firebase
+Retrofit (Chapter 8), Paging (Chapter 9).
