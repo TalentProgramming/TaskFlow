@@ -23,6 +23,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import com.tp.taskflow.core.common.Resource
+import com.tp.taskflow.core.ui.DefaultAvatar
 import com.tp.taskflow.core.ui.EnvironmentBanner
 import com.tp.taskflow.feature.home.domain.AppNotification
 import com.tp.taskflow.feature.home.domain.Dashboard
@@ -139,11 +140,17 @@ private fun DashboardContent(dashboard: Dashboard) {
 private fun ProfileCard(profile: Profile) {
     Card(
         modifier = Modifier.fillMaxWidth(),
-        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.primaryContainer)
+        colors = CardDefaults.cardColors(containerColor = MaterialTheme.colorScheme.secondaryContainer)
     ) {
-        Column(modifier = Modifier.padding(16.dp), verticalArrangement = Arrangement.spacedBy(4.dp)) {
-            Text("Profile", style = MaterialTheme.typography.titleSmall, fontWeight = FontWeight.SemiBold)
-            Text(profile.name, style = MaterialTheme.typography.titleMedium)
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(20.dp),
+            horizontalAlignment = Alignment.CenterHorizontally,
+            verticalArrangement = Arrangement.spacedBy(10.dp)
+        ) {
+            DefaultAvatar(size = 72.dp)
+            Text(profile.name, style = MaterialTheme.typography.titleMedium, fontWeight = FontWeight.Bold)
             Text(profile.email, style = MaterialTheme.typography.bodyMedium)
         }
     }
