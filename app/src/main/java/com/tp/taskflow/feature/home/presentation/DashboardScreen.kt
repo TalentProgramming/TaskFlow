@@ -55,7 +55,7 @@ fun DashboardScreen(
                         fontWeight = FontWeight.Bold
                     )
                     Text(
-                        text = "Chapter 3 • Parallel dashboard",
+                        text = "Chapter 6 • Hilt injection",
                         style = MaterialTheme.typography.titleSmall,
                         color = MaterialTheme.colorScheme.primary
                     )
