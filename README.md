@@ -2,20 +2,20 @@
 
 **Chapter 8 — Retrofit + OkHttp**
 
-Login goes through Retrofit. A classroom mock interceptor returns JSON. The auth interceptor attaches `Bearer` after login.
+Login goes through Retrofit to the live classroom API:
+
+`https://taskflowapi-7jb0.onrender.com/v1/`
 
 ```text
 LoginViewModel → LoginUseCase → AuthRepositoryImpl → TaskFlowApi
         ↓
-TokenStore (DataStore) → AuthInterceptor → Authorization header
+TokenStore (DataStore) → AuthInterceptor → Authorization: Bearer
+        ↓
+https://taskflowapi-7jb0.onrender.com
 ```
 
-Demo credentials stay `student@example.com` / `123456`. Wrong password returns 401.
+Demo credentials: `student@example.com` / `123456`. Wrong password returns 401.
 
-## Carried forward
+The first call after Render sleeps can take ~30s. Timeouts are 60s so that cold start can finish. Open the URL in a browser first if login still fails.
 
-Room notes, DataStore theme, Hilt, flavors.
-
-## Not a public server
-
-`ClassroomMockInterceptor` is the backend for class. Inspector still shows the Bearer header on `/profile/me`.
+`ClassroomMockInterceptor` is not on the OkHttp chain anymore. The phone calls the real host.

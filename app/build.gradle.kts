@@ -49,7 +49,7 @@ android {
             dimension = "environment"
             applicationIdSuffix = ".staging"
             versionNameSuffix = "-staging"
-            buildConfigField("String", "API_BASE_URL", "\"https://staging-api.taskflow.local/v1/\"")
+            buildConfigField("String", "API_BASE_URL", "\"https://taskflowapi-7jb0.onrender.com/v1/\"")
             buildConfigField("String", "ENV_NAME", "\"staging\"")
             resValue("string", "app_name", "TaskFlow Staging")
             signingConfigs.findByName("development")?.let { signingConfig = it }
@@ -58,14 +58,14 @@ android {
             dimension = "environment"
             applicationIdSuffix = ".uat"
             versionNameSuffix = "-uat"
-            buildConfigField("String", "API_BASE_URL", "\"https://uat-api.taskflow.local/v1/\"")
+            buildConfigField("String", "API_BASE_URL", "\"https://taskflowapi-7jb0.onrender.com/v1/\"")
             buildConfigField("String", "ENV_NAME", "\"uat\"")
             resValue("string", "app_name", "TaskFlow UAT")
             signingConfigs.findByName("development")?.let { signingConfig = it }
         }
         create("prod") {
             dimension = "environment"
-            buildConfigField("String", "API_BASE_URL", "\"https://api.taskflow.app/v1/\"")
+            buildConfigField("String", "API_BASE_URL", "\"https://taskflowapi-7jb0.onrender.com/v1/\"")
             buildConfigField("String", "ENV_NAME", "\"production\"")
             resValue("string", "app_name", "TaskFlow")
             signingConfigs.findByName("production")?.let { signingConfig = it }

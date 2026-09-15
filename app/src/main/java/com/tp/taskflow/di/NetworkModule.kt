@@ -2,7 +2,6 @@ package com.tp.taskflow.di
 
 import com.tp.taskflow.BuildConfig
 import com.tp.taskflow.core.network.AuthInterceptor
-import com.tp.taskflow.core.network.ClassroomMockInterceptor
 import com.tp.taskflow.core.network.TaskFlowApi
 import dagger.Module
 import dagger.Provides
@@ -32,10 +31,9 @@ object NetworkModule {
         return OkHttpClient.Builder()
             .addInterceptor(authInterceptor)
             .addInterceptor(logging)
-            .addInterceptor(ClassroomMockInterceptor())
-            .connectTimeout(15, TimeUnit.SECONDS)
-            .readTimeout(15, TimeUnit.SECONDS)
-            .writeTimeout(15, TimeUnit.SECONDS)
+            .connectTimeout(60, TimeUnit.SECONDS)
+            .readTimeout(60, TimeUnit.SECONDS)
+            .writeTimeout(60, TimeUnit.SECONDS)
             .build()
     }
 
