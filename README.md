@@ -2,23 +2,25 @@
 
 **Chapter 8 — Retrofit + OkHttp**
 
-Login goes through Retrofit to the live classroom API:
+The app calls the live Render hosts. No classroom mock interceptor.
 
 | Flavor | `API_BASE_URL` |
 |---|---|
 | staging / uat | `https://taskflowapi-7jb0.onrender.com/v1/` |
 | prod | `https://taskflowapiprod.onrender.com/` |
 
-Redeploy `api/` after pulling these Flask fixes. `GET /` and `GET /v1/` now return JSON. Login is `POST /auth/login` — a browser GET only shows a hint.
+| Method | Path | Auth |
+|---|---|---|
+| POST | `auth/login` | no |
+| GET | `profile/me` | Bearer |
+| GET | `posts` | Bearer |
+| PUT | `profile/me` | Bearer |
 
 ```text
-LoginViewModel → LoginUseCase → AuthRepositoryImpl → TaskFlowApi
-        ↓
-TokenStore (DataStore) → AuthInterceptor → Authorization: Bearer
+Login → TokenStore → AuthInterceptor (Bearer)
+Dashboard → GET profile/me + GET posts in parallel
 ```
 
-Demo credentials: `student@example.com` / `123456`. Wrong password returns 401.
+Demo: `student@example.com` / `123456`
 
-The first call after Render sleeps can take ~30s. Timeouts are 60s so that cold start can finish. Open the URL in a browser first if login still fails.
-
-`ClassroomMockInterceptor` is not on the OkHttp chain anymore. The phone calls the real host.
+Redeploy `api/` so Render serves `GET /posts`. Timeouts are 60s for a cold start.

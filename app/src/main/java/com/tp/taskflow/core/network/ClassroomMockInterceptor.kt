@@ -49,6 +49,15 @@ class ClassroomMockInterceptor : Interceptor {
             path.endsWith("/profile/me/photo") -> {
                 ok("""{"id":"u-1","name":"Aung Ko","email":"${FakeAuthRepository.DEMO_EMAIL}","photoUrl":"mock://photo"}""")
             }
+            path.endsWith("/posts") -> {
+                if (request.header("Authorization").isNullOrBlank()) {
+                    ok("""{"message":"Unauthorized"}""", 401)
+                } else {
+                    ok(
+                        """[{"id":"t-1","title":"Prepare Chapter 8 lab","note":"Login, then GET profile and GET posts."},{"id":"t-2","title":"Review Resource states","note":"Loading, Success, Error, Empty."},{"id":"t-3","title":"Practice interceptors","note":"Bearer is added once. Not in the ViewModel."}]"""
+                    )
+                }
+            }
             path.endsWith("/products") -> {
                 val q = request.url.queryParameter("q").orEmpty()
                 if (q.equals("error", ignoreCase = true)) {

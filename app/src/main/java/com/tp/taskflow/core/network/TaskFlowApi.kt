@@ -4,6 +4,7 @@ import com.tp.taskflow.feature.auth.data.LoginRequestDto
 import com.tp.taskflow.feature.auth.data.TokenDto
 import com.tp.taskflow.feature.product.data.ProductDto
 import com.tp.taskflow.feature.profile.data.ProfileDto
+import com.tp.taskflow.feature.task.data.PostDto
 import okhttp3.MultipartBody
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -19,6 +20,9 @@ interface TaskFlowApi {
 
     @GET("profile/me")
     suspend fun profile(): ProfileDto
+
+    @GET("posts")
+    suspend fun posts(): List<PostDto>
 
     @PUT("profile/me")
     suspend fun updateProfile(@Body body: ProfileDto): ProfileDto
