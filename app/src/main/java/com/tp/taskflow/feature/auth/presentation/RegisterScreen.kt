@@ -82,9 +82,9 @@ fun RegisterScreen(
                 modifier = Modifier.fillMaxWidth(),
                 enabled = state !is Resource.Loading
             ) { Text("Register") }
-            when (state) {
+            when (val current = state) {
                 Resource.Loading -> CircularProgressIndicator(modifier = Modifier.align(Alignment.CenterHorizontally))
-                is Resource.Error -> Text(state.message, color = MaterialTheme.colorScheme.error)
+                is Resource.Error -> Text(current.message, color = MaterialTheme.colorScheme.error)
                 is Resource.Success -> {
                     Text("Welcome, ${state.data.name}")
                     Button(onClick = onSuccess, modifier = Modifier.fillMaxWidth()) { Text("Open dashboard") }
