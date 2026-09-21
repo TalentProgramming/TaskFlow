@@ -1,6 +1,7 @@
 package com.tp.taskflow.core.network
 
 import com.tp.taskflow.feature.auth.data.LoginRequestDto
+import com.tp.taskflow.feature.auth.data.RegisterRequestDto
 import com.tp.taskflow.feature.auth.data.TokenDto
 import com.tp.taskflow.feature.product.data.ProductDto
 import com.tp.taskflow.feature.profile.data.ProfileDto
@@ -16,6 +17,9 @@ import retrofit2.http.Query
 interface TaskFlowApi {
     @POST("auth/login")
     suspend fun login(@Body body: LoginRequestDto): TokenDto
+
+    @POST("auth/register")
+    suspend fun register(@Body body: RegisterRequestDto): TokenDto
 
     @GET("profile/me")
     suspend fun profile(): ProfileDto

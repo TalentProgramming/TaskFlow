@@ -29,6 +29,7 @@ class ClassroomMockInterceptor : Interceptor {
                 val email = parsed.optString("email")
                 val password = parsed.optString("password")
                 if (email == FakeAuthRepository.DEMO_EMAIL && password == FakeAuthRepository.DEMO_PASSWORD) {
+                    FakeAuthRepository.rememberSignedIn("Aung Ko", email)
                     ok(
                         """{"token":"tf-classroom-token","user":{"id":"u-1","name":"Aung Ko","email":"$email"}}"""
                     )
@@ -36,11 +37,23 @@ class ClassroomMockInterceptor : Interceptor {
                     ok("""{"message":"Invalid credentials"}""", 401)
                 }
             }
+            path.endsWith("/auth/register") -> {
+                val raw = request.body?.let { bufferBody(it) } ?: "{}"
+                val parsed = JSONObject(raw)
+                val name = parsed.optString("name").ifBlank { "New student" }
+                val email = parsed.optString("email")
+                FakeAuthRepository.rememberSignedIn(name, email)
+                ok(
+                    """{"token":"tf-classroom-token","user":{"id":"u-new","name":"$name","email":"$email"}}"""
+                )
+            }
             path.endsWith("/profile/me") && request.method == "GET" -> {
                 if (request.header("Authorization").isNullOrBlank()) {
                     ok("""{"message":"Unauthorized"}""", 401)
                 } else {
-                    ok("""{"id":"u-1","name":"Aung Ko","email":"${FakeAuthRepository.DEMO_EMAIL}","photoUrl":null}""")
+                    val name = FakeAuthRepository.lastSignedInName
+                    val email = FakeAuthRepository.lastSignedInEmail ?: FakeAuthRepository.DEMO_EMAIL
+                    ok("""{"id":"u-1","name":"$name","email":"$email","photoUrl":null}""")
                 }
             }
             path.endsWith("/profile/me") && request.method == "PUT" -> {

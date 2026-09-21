@@ -21,16 +21,40 @@ class AuthRepositoryImpl @Inject constructor(
             tokenStore.save(response.token)
             Resource.Success(response.user.toDomain())
         } catch (error: HttpException) {
-            val message = when (error.code()) {
-                401 -> "Invalid credentials"
-                404 -> "Login endpoint not found"
-                500 -> "Server error. Try again."
-                else -> "Could not sign in (${error.code()})"
-            }
-            Resource.Error(message)
+            Resource.Error(loginMessage(error))
         } catch (error: Exception) {
             Resource.Error(error.message ?: "Could not sign in")
         }
+    }
+
+    override suspend fun register(
+        name: String,
+        email: String,
+        password: String,
+        phone: String
+    ): Resource<User> {
+        return try {
+            val response = api.register(RegisterRequestDto(name, email, password, phone))
+            tokenStore.save(response.token)
+            Resource.Success(response.user.toDomain())
+        } catch (error: HttpException) {
+            val message = when (error.code()) {
+                404 -> "Register endpoint not found"
+                409 -> "That email is already registered"
+                500 -> "Server error. Try again."
+                else -> "Could not register (${error.code()})"
+            }
+            Resource.Error(message)
+        } catch (error: Exception) {
+            Resource.Error(error.message ?: "Could not register")
+        }
+    }
+
+    private fun loginMessage(error: HttpException): String = when (error.code()) {
+        401 -> "Invalid credentials"
+        404 -> "Login endpoint not found"
+        500 -> "Server error. Try again."
+        else -> "Could not sign in (${error.code()})"
     }
 
     override suspend fun logout() {

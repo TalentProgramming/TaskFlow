@@ -15,7 +15,7 @@ class FakeAuthRepository @Inject constructor() {
                     name = "Aung Ko",
                     email = email
                 ).also { user ->
-                    lastSignedInEmail = user.email
+                    rememberSignedIn(user.name, user.email)
                 }
             )
         } else {
@@ -27,7 +27,14 @@ class FakeAuthRepository @Inject constructor() {
         const val DEMO_EMAIL = "student@example.com"
         const val DEMO_PASSWORD = "123456"
 
+        var lastSignedInName: String = "Aung Ko"
+            private set
         var lastSignedInEmail: String? = null
             private set
+
+        fun rememberSignedIn(name: String, email: String) {
+            lastSignedInName = name
+            lastSignedInEmail = email
+        }
     }
 }

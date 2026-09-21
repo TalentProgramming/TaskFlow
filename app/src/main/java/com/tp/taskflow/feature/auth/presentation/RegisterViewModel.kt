@@ -3,8 +3,8 @@ package com.tp.taskflow.feature.auth.presentation
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.tp.taskflow.core.common.Resource
-import com.tp.taskflow.feature.auth.domain.LoginUseCase
 import com.tp.taskflow.feature.auth.domain.RegisterForm
+import com.tp.taskflow.feature.auth.domain.RegisterUseCase
 import com.tp.taskflow.feature.auth.domain.User
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -14,7 +14,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class RegisterViewModel @Inject constructor(
-    private val login: LoginUseCase
+    private val register: RegisterUseCase
 ) : ViewModel() {
 
     private val _form = MutableStateFlow(RegisterForm())
@@ -36,7 +36,12 @@ class RegisterViewModel @Inject constructor(
         if (checked.errors.isNotEmpty()) return
         viewModelScope.launch {
             _state.value = Resource.Loading
-            _state.value = login(checked.email.trim(), checked.password)
+            _state.value = register(
+                name = checked.name.trim(),
+                email = checked.email.trim(),
+                password = checked.password,
+                phone = checked.phone.trim()
+            )
         }
     }
 }
