@@ -96,7 +96,8 @@ fun TaskFlowNavHost(
                     },
                     onOpenSearch = { nav.navigate(Routes.Search) },
                     onOpenNotes = { nav.navigate(Routes.Notes) },
-                    onOpenProfile = { nav.navigate(Routes.Profile) }
+                    onOpenProfile = { nav.navigate(Routes.Profile) },
+                    onOpenStudioMug = { nav.navigate(Routes.product("studio-mug")) }
                 )
             }
             composable(Routes.Search) {
@@ -115,9 +116,8 @@ fun TaskFlowNavHost(
             composable(Routes.Chat) {
                 ChatScreen(viewModel = hiltViewModel())
             }
-            composable(Routes.ProductDetail) { entry ->
-                val id = entry.arguments?.getString("id").orEmpty()
-                ProductDetailScreen(productId = id, onBack = { nav.popBackStack() })
+            composable(Routes.ProductDetail) {
+                ProductDetailScreen(viewModel = hiltViewModel(), onBack = { nav.popBackStack() })
             }
         }
     }
