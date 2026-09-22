@@ -1,8 +1,8 @@
 # TaskFlow
 
-**Chapter 19 — Motion, TalkBack, and drawing**
+**Chapter 20 — Images, CompositionLocal, and Compose UI tests**
 
-Studio Mug favorite heart uses `animateFloatAsState(label = "favoriteScale")`. TalkBack merges name, price, and favorite. Progress ring is `drawBehind` at 65%.
+`LocalSpacing` is provided by `TaskFlowTheme`. Product detail and Settings pad with `LocalSpacing.current.md`. Node-level tests: `toggle_row_click_turnsOn` and `favorite_announcesOnState`.
 
 Production-style Android app for **Android Advanced Techniques** (16 chapters, 48 hours). This branch is the course capstone: one app, not sixteen toy projects.
 
@@ -100,3 +100,4 @@ UI (Compose + Navigation)
 | `dev/chapter17` | Product detail layout + SALE badge modifier quiz |
 | `dev/chapter18` | Settings screen with ListItem slots + live dark theme |
 | `dev/chapter19` | Favorite motion, TalkBack merge, progress ring |
+| `dev/chapter20` | LocalSpacing + two Compose UI tests |

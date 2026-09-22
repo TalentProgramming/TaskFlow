@@ -62,7 +62,7 @@ fun DashboardScreen(
                         fontWeight = FontWeight.Bold
                     )
                     Text(
-                        text = "Chapter 19 • Motion and TalkBack",
+                        text = "Chapter 20 • Spacing and UI tests",
                         style = MaterialTheme.typography.titleSmall,
                         color = MaterialTheme.colorScheme.primary
                     )

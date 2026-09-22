@@ -18,6 +18,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.tp.taskflow.core.ui.EnvironmentBanner
+import com.tp.taskflow.ui.theme.LocalSpacing
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -28,6 +29,7 @@ fun SettingsScreen(
     onBack: () -> Unit
 ) {
     val notifications by viewModel.notifications.collectAsStateWithLifecycle()
+    val spacing = LocalSpacing.current
     Scaffold(
         topBar = { TopAppBar(title = { Text("Settings") }) }
     ) { innerPadding ->
@@ -35,7 +37,7 @@ fun SettingsScreen(
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
-                .padding(horizontal = 16.dp)
+                .padding(horizontal = spacing.md)
         ) {
             Text("Chapter 18 • Material 3 lists and slots", color = MaterialTheme.colorScheme.primary)
             EnvironmentBanner()
@@ -53,7 +55,7 @@ fun SettingsScreen(
                 onCheckedChange = viewModel::setNotifications,
                 icon = Icons.Default.Notifications
             )
-            OutlinedButton(onClick = onBack, modifier = Modifier.padding(top = 16.dp)) {
+            OutlinedButton(onClick = onBack, modifier = Modifier.padding(top = spacing.md)) {
                 Text("Back")
             }
         }

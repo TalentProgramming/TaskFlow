@@ -37,6 +37,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.tp.taskflow.core.ui.EnvironmentBanner
+import com.tp.taskflow.ui.theme.LocalSpacing
 import com.tp.taskflow.ui.theme.TaskFlowTheme
 
 @Composable
@@ -61,6 +62,7 @@ fun ProductDetailContent(
     onBack: () -> Unit
 ) {
     val context = LocalContext.current
+    val spacing = LocalSpacing.current
     val ringColor = MaterialTheme.colorScheme.primary
     val trackColor = MaterialTheme.colorScheme.surfaceVariant
     val spoken = "${product.name}, ${product.price}, ${if (favorite) "favorited" else "not favorited"}"
@@ -115,7 +117,7 @@ fun ProductDetailContent(
                 modifier = Modifier
                     .weight(1f)
                     .verticalScroll(rememberScrollState())
-                    .padding(16.dp),
+                    .padding(spacing.md),
                 verticalArrangement = Arrangement.spacedBy(12.dp)
             ) {
                 Text("Chapter 19 • Motion, TalkBack, drawing", color = MaterialTheme.colorScheme.primary)
@@ -142,7 +144,7 @@ fun ProductDetailContent(
                 onClick = { Toast.makeText(context, "Added to cart", Toast.LENGTH_SHORT).show() },
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(16.dp)
+                    .padding(spacing.md)
             ) {
                 Text("Add to cart")
             }
