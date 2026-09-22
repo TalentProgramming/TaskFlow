@@ -1,8 +1,8 @@
 # TaskFlow
 
-**Chapter 18 — Material 3 lists and slots**
+**Chapter 19 — Motion, TalkBack, and drawing**
 
-Settings uses `ListItem` slots. Dark theme drives the existing `ThemeViewModel`. Notifications is session-only.
+Studio Mug favorite heart uses `animateFloatAsState(label = "favoriteScale")`. TalkBack merges name, price, and favorite. Progress ring is `drawBehind` at 65%.
 
 Production-style Android app for **Android Advanced Techniques** (16 chapters, 48 hours). This branch is the course capstone: one app, not sixteen toy projects.
 
@@ -99,3 +99,4 @@ UI (Compose + Navigation)
 | `dev/chapter16` | CI + version 1.1.0 + this README |
 | `dev/chapter17` | Product detail layout + SALE badge modifier quiz |
 | `dev/chapter18` | Settings screen with ListItem slots + live dark theme |
+| `dev/chapter19` | Favorite motion, TalkBack merge, progress ring |

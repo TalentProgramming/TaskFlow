@@ -62,7 +62,7 @@ fun DashboardScreen(
                         fontWeight = FontWeight.Bold
                     )
                     Text(
-                        text = "Chapter 18 • Material 3 lists",
+                        text = "Chapter 19 • Motion and TalkBack",
                         style = MaterialTheme.typography.titleSmall,
                         color = MaterialTheme.colorScheme.primary
                     )
