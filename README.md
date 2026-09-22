@@ -1,8 +1,8 @@
 # TaskFlow
 
-**Chapter 17 — Compose layouts and modifiers**
+**Chapter 18 — Material 3 lists and slots**
 
-Product detail: Box + SALE badge (`align(TopEnd)`), body `weight(1f)`, buy button pinned. Open from Home **Studio Mug** or a catalog row.
+Settings uses `ListItem` slots. Dark theme drives the existing `ThemeViewModel`. Notifications is session-only.
 
 Production-style Android app for **Android Advanced Techniques** (16 chapters, 48 hours). This branch is the course capstone: one app, not sixteen toy projects.
 
@@ -98,3 +98,4 @@ UI (Compose + Navigation)
 | `dev/chapter15` | Tests + security + R8 |
 | `dev/chapter16` | CI + version 1.1.0 + this README |
 | `dev/chapter17` | Product detail layout + SALE badge modifier quiz |
+| `dev/chapter18` | Settings screen with ListItem slots + live dark theme |

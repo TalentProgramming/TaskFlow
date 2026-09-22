@@ -38,7 +38,8 @@ fun DashboardScreen(
     onOpenSearch: () -> Unit = {},
     onOpenNotes: () -> Unit = {},
     onOpenProfile: () -> Unit = {},
-    onOpenStudioMug: () -> Unit = {}
+    onOpenStudioMug: () -> Unit = {},
+    onOpenSettings: () -> Unit = {}
 ) {
     Scaffold { innerPadding ->
         Column(
@@ -61,7 +62,7 @@ fun DashboardScreen(
                         fontWeight = FontWeight.Bold
                     )
                     Text(
-                        text = "Chapter 17 • Layouts and modifiers",
+                        text = "Chapter 18 • Material 3 lists",
                         style = MaterialTheme.typography.titleSmall,
                         color = MaterialTheme.colorScheme.primary
                     )
@@ -76,6 +77,7 @@ fun DashboardScreen(
                     OutlinedButton(onClick = onOpenNotes) { Text("Notes") }
                     OutlinedButton(onClick = onOpenProfile) { Text("Profile") }
                     OutlinedButton(onClick = onOpenStudioMug) { Text("Studio Mug") }
+                    OutlinedButton(onClick = onOpenSettings) { Text("Settings") }
                     OutlinedButton(onClick = onLogout) { Text("Logout") }
                 }
             }

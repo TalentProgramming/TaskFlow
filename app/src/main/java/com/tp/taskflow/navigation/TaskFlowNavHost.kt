@@ -23,6 +23,7 @@ import com.tp.taskflow.feature.note.presentation.NotesScreen
 import com.tp.taskflow.feature.product.presentation.ProductDetailScreen
 import com.tp.taskflow.feature.product.presentation.ProductSearchScreen
 import com.tp.taskflow.feature.profile.presentation.ProfileScreen
+import com.tp.taskflow.feature.settings.presentation.SettingsScreen
 
 @Composable
 fun TaskFlowNavHost(
@@ -97,7 +98,8 @@ fun TaskFlowNavHost(
                     onOpenSearch = { nav.navigate(Routes.Search) },
                     onOpenNotes = { nav.navigate(Routes.Notes) },
                     onOpenProfile = { nav.navigate(Routes.Profile) },
-                    onOpenStudioMug = { nav.navigate(Routes.product("studio-mug")) }
+                    onOpenStudioMug = { nav.navigate(Routes.product("studio-mug")) },
+                    onOpenSettings = { nav.navigate(Routes.Settings) }
                 )
             }
             composable(Routes.Search) {
@@ -118,6 +120,14 @@ fun TaskFlowNavHost(
             }
             composable(Routes.ProductDetail) {
                 ProductDetailScreen(viewModel = hiltViewModel(), onBack = { nav.popBackStack() })
+            }
+            composable(Routes.Settings) {
+                SettingsScreen(
+                    viewModel = hiltViewModel(),
+                    darkMode = darkMode,
+                    onToggleDarkMode = themeViewModel::setDark,
+                    onBack = { nav.popBackStack() }
+                )
             }
         }
     }
