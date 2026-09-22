@@ -25,3 +25,5 @@ keystore.properties
 _homework_extract.txt
 .kotlin/
 *.pptx
+google-services.json
+!google-services.json.example

@@ -36,7 +36,7 @@ fun ChatScreen(viewModel: ChatViewModel) {
         ) {
             Text("Chat", style = MaterialTheme.typography.headlineMedium, fontWeight = FontWeight.Bold)
             Text(
-                "Chapter 14 • Classroom store (swap to Firestore with the same ChatRepository)",
+                "Chapter 14 • Firestore realtime",
                 color = MaterialTheme.colorScheme.primary,
                 style = MaterialTheme.typography.bodySmall
             )

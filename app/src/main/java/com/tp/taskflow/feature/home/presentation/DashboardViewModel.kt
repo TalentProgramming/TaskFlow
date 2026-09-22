@@ -6,6 +6,7 @@ import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.tp.taskflow.core.common.Resource
+import com.tp.taskflow.feature.auth.domain.AuthRepository
 import com.tp.taskflow.feature.home.domain.Dashboard
 import com.tp.taskflow.feature.home.domain.LoadDashboardUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -14,7 +15,8 @@ import javax.inject.Inject
 
 @HiltViewModel
 class DashboardViewModel @Inject constructor(
-    private val loadDashboard: LoadDashboardUseCase
+    private val loadDashboard: LoadDashboardUseCase,
+    private val authRepository: AuthRepository
 ) : ViewModel() {
 
     var state by mutableStateOf<Resource<Dashboard>>(Resource.Empty)
@@ -28,6 +30,13 @@ class DashboardViewModel @Inject constructor(
         viewModelScope.launch {
             state = Resource.Loading
             state = loadDashboard()
+        }
+    }
+
+    fun logout(onDone: () -> Unit) {
+        viewModelScope.launch {
+            authRepository.logout()
+            onDone()
         }
     }
 }

@@ -37,7 +37,9 @@ fun DashboardScreen(
     onLogout: () -> Unit,
     onOpenSearch: () -> Unit = {},
     onOpenNotes: () -> Unit = {},
-    onOpenProfile: () -> Unit = {}
+    onOpenProfile: () -> Unit = {},
+    showCrashButton: Boolean = false,
+    onTestCrash: () -> Unit = {}
 ) {
     Scaffold { innerPadding ->
         Column(
@@ -60,7 +62,7 @@ fun DashboardScreen(
                         fontWeight = FontWeight.Bold
                     )
                     Text(
-                        text = "Chapter 14 • Classroom chat",
+                        text = "Chapter 14 • Firebase classroom",
                         style = MaterialTheme.typography.titleSmall,
                         color = MaterialTheme.colorScheme.primary
                     )
@@ -74,7 +76,10 @@ fun DashboardScreen(
                     OutlinedButton(onClick = onOpenSearch) { Text("Search") }
                     OutlinedButton(onClick = onOpenNotes) { Text("Notes") }
                     OutlinedButton(onClick = onOpenProfile) { Text("Profile") }
-                    OutlinedButton(onClick = onLogout) { Text("Logout") }
+                    OutlinedButton(onClick = { viewModel.logout(onLogout) }) { Text("Logout") }
+                    if (showCrashButton) {
+                        OutlinedButton(onClick = onTestCrash) { Text("Test crash") }
+                    }
                 }
             }
 

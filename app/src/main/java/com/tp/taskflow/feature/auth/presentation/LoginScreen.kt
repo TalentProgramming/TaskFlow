@@ -48,7 +48,7 @@ fun LoginScreen(
                 fontWeight = FontWeight.Bold
             )
             Text(
-                text = "Chapter 2 • Login state simulator",
+                text = "Chapter 14 • Email / password Auth",
                 style = MaterialTheme.typography.titleMedium,
                 color = MaterialTheme.colorScheme.primary
             )

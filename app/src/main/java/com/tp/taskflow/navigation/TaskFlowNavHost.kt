@@ -14,6 +14,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.tp.taskflow.core.firebase.ClassroomFlags
 import com.tp.taskflow.core.ui.ThemeViewModel
 import com.tp.taskflow.feature.chat.presentation.ChatScreen
 import com.tp.taskflow.feature.auth.presentation.LoginScreen
@@ -27,12 +28,20 @@ import com.tp.taskflow.feature.profile.presentation.ProfileScreen
 @Composable
 fun TaskFlowNavHost(
     darkMode: Boolean,
-    themeViewModel: ThemeViewModel
+    themeViewModel: ThemeViewModel,
+    flags: ClassroomFlags = ClassroomFlags(),
+    onTestCrash: () -> Unit = {}
 ) {
     val nav = rememberNavController()
     val backStack by nav.currentBackStackEntryAsState()
     val route = backStack?.destination?.route
-    val tabs = listOf(Routes.Home, Routes.Search, Routes.Notes, Routes.Profile, Routes.Chat)
+    val tabs = buildList {
+        add(Routes.Home)
+        add(Routes.Search)
+        add(Routes.Notes)
+        add(Routes.Profile)
+        if (flags.chatEnabled) add(Routes.Chat)
+    }
     val showBar = route in tabs
 
     Scaffold(
@@ -96,7 +105,9 @@ fun TaskFlowNavHost(
                     },
                     onOpenSearch = { nav.navigate(Routes.Search) },
                     onOpenNotes = { nav.navigate(Routes.Notes) },
-                    onOpenProfile = { nav.navigate(Routes.Profile) }
+                    onOpenProfile = { nav.navigate(Routes.Profile) },
+                    showCrashButton = flags.crashEnabled,
+                    onTestCrash = onTestCrash
                 )
             }
             composable(Routes.Search) {
